@@ -8,7 +8,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --blue:#0553B1;--blue-light:#027DFD;--blue-dark:#054D9E;
+  --blue:#2c5282;--blue-light:#4299e1;--blue-dark:#1a365d;
   --black:#111;--dark:#222;--muted:#555;--light-muted:#888;
   --border:#ccc;--bg:#eae8e3;--panel-bg:#fff;
   --font:'Source Sans 3',sans-serif;--radius:5px;
@@ -72,7 +72,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 }
 .fg input:focus,.fg textarea:focus{
   outline:none;border-color:var(--blue-light);
-  box-shadow:0 0 0 2px rgba(2,125,253,.12);background:#fff;
+  box-shadow:0 0 0 2px rgba(66,153,225,.12);background:#fff;
 }
 .fg textarea{min-height:50px;}
 .fg textarea.tall{min-height:76px;}
@@ -133,14 +133,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 #cv .cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}
 #cv .cv-contacts{margin-top:5px;font-size:8.2pt;color:#333;display:flex;flex-wrap:wrap;gap:3px 0;align-items:center;}
 #cv .cv-contacts .ci{color:#333;}
-#cv .cv-contacts .ci::after{content:' | ';color:#bbb;}
+#cv .cv-contacts .ci::after{content:'|';color:#ccc;display:inline-block;margin:0 12px;}
 #cv .cv-contacts .ci:last-child::after{content:'';}
 #cv .cv-contacts a.ci-link{
   color:var(--blue);text-decoration:none;font-weight:600;font-size:8.2pt;
-  border-bottom:1px solid rgba(5,83,177,.25);transition:color .15s;
+  border-bottom:1px solid rgba(44,82,130,.25);transition:color .15s;
 }
 #cv .cv-contacts a.ci-link:hover{color:var(--blue-light);}
-#cv .cv-contacts a.ci-link::after{content:' | ';color:#bbb;font-weight:400;border:none;text-decoration:none;display:inline;}
+#cv .cv-contacts a.ci-link::after{content:'|';color:#ccc;font-weight:400;border:none;text-decoration:none;display:inline-block;margin:0 12px;}
 #cv .cv-contacts a.ci-link:last-child::after{content:'';}
 #cv .cv-contacts .ci-sep{color:#bbb;margin:0 1px;}
 
@@ -813,17 +813,17 @@ function printCV(){
   var css =
     '@page{size:A4;margin:0;}'+
     '*{margin:0;padding:0;box-sizing:border-box;}'+
-    ':root{--blue:#0553B1;}'+
+    ':root{--blue:#2c5282;}'+
     'html,body{width:210mm;min-height:297mm;background:#fff;}'+
     'body{font-family:"Source Sans 3",sans-serif;color:#111;background:#fff;font-size:9.4pt;line-height:1.45;padding:12mm 14mm;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'+
     '.cv-hd{padding-bottom:10px;border-bottom:2.5px solid var(--blue);margin-bottom:12px;}'+
     '.cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#000;line-height:1.05;}'+
     '.cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}'+
     '.cv-contacts{margin-top:5px;font-size:8.2pt;color:#333;display:flex;flex-wrap:wrap;gap:3px 0;align-items:center;}'+
-    '.cv-contacts .ci::after{content:" | ";color:#bbb;}'+
+    '.cv-contacts .ci::after{content:"|";color:#ccc;display:inline-block;margin:0 12px;}'+
     '.cv-contacts .ci:last-child::after{content:"";}'+
-    '.cv-contacts a.ci-link{color:var(--blue);text-decoration:none;font-weight:600;font-size:8.2pt;}'+
-    '.cv-contacts a.ci-link::after{content:" | ";color:#bbb;font-weight:400;}'+
+    '.cv-contacts a.ci-link{color:var(--blue);text-decoration:none;font-weight:600;font-size:8.2pt;border-bottom:1px solid rgba(44,82,130,.25);}'+
+    '.cv-contacts a.ci-link::after{content:"|";color:#ccc;font-weight:400;display:inline-block;margin:0 12px;}'+
     '.cv-contacts a.ci-link:last-child::after{content:"";}'+
     '.sec{margin-bottom:11px;page-break-inside:avoid;}'+
     '.sec-ttl{font-size:8pt;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--blue);border-bottom:1.2px solid var(--blue);padding-bottom:2px;margin-bottom:7px;}'+
@@ -862,7 +862,7 @@ function printCV(){
   // Create hidden iframe
   var iframe = document.createElement('iframe');
   iframe.id = '__print_frame';
-  iframe.style.cssText = 'position:fixed;top:0;left:-220mm;width:210mm;height:297mm;border:none;opacity:0;pointer-events:none;';
+  iframe.style.cssText = 'position:fixed;top:0;left:-9999px;width:210mm;height:297mm;border:none;z-index:-9999;';
   document.body.appendChild(iframe);
 
   var doc = iframe.contentDocument || iframe.contentWindow.document;
