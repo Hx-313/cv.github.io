@@ -36,6 +36,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 .tbtn-bold.active{background:var(--blue);color:#fff;border-color:var(--blue);}
 .tbtn-print{background:var(--blue);color:#fff;border-color:var(--blue);}
 .tbtn-print:hover{background:var(--blue-dark);border-color:var(--blue-dark);}
+.tbtn-reset{background:#444;color:#fff;border-color:#444;}
+.tbtn-reset:hover{background:#555;border-color:#555;}
 
 /* LAYOUT */
 #app{display:flex;height:calc(100vh - 50px);}
@@ -127,8 +129,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
   font-family:var(--font);font-size:9.4pt;color:#111;line-height:1.45;
 }
 #cv .cv-hd{padding-bottom:10px;border-bottom:2.5px solid var(--blue);margin-bottom:12px;}
-#cv .cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:var(--blue);line-height:1.05;}
-#cv .cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:#444;margin-top:3px;text-transform:uppercase;}
+#cv .cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#000;line-height:1.05;}
+#cv .cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}
 #cv .cv-contacts{margin-top:5px;font-size:8.2pt;color:#333;display:flex;flex-wrap:wrap;gap:3px 0;align-items:center;}
 #cv .cv-contacts .ci{color:#333;}
 #cv .cv-contacts .ci::after{content:' | ';color:#bbb;}
@@ -209,7 +211,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
     </button>
     <span style="color:#555;font-size:10px;">← select text in any field first</span>
   </div>
-  <button class="tbtn tbtn-print" onclick="printCV()">🖨&nbsp; Print / Save PDF</button>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="tbtn tbtn-reset" onclick="resetTemplate()">🔄&nbsp; Reset to Default</button>
+    <button class="tbtn tbtn-print" onclick="printCV()">🖨&nbsp; Print / Save PDF</button>
+  </div>
 </div>
 
 <div id="app">
@@ -372,6 +377,14 @@ function bf(s){
                .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
 }
 function nl2br(s){ return bf(s).replace(/\n/g,'<br>'); }
+function linkHref(url){
+  url = (url || '').trim();
+  if(!url) return '';
+  if(/^(https?:|mailto:|tel:)/i.test(url)) return url;
+  if(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(url)) return 'mailto:' + url;
+  if(/^\+?[\d\s().-]{7,}$/.test(url)) return 'tel:' + url.replace(/\s+/g, '');
+  return 'https://' + url.replace(/^\/+/, '');
+}
 function tog(hd){
   hd.nextElementSibling.classList.toggle('open');
   hd.querySelector('.blk-arr').classList.toggle('open');
@@ -680,7 +693,7 @@ function render(){
   // Clickable links
   var validLinks = D.links.filter(function(lk){ return lk.label && lk.url; });
   validLinks.forEach(function(lk){
-    h += '<a class="ci-link" href="'+esc(lk.url)+'" target="_blank" rel="noopener">'+esc(lk.label)+'</a>';
+    h += '<a class="ci-link" href="'+esc(linkHref(lk.url))+'" target="_blank" rel="noopener">'+esc(lk.label)+'</a>';
   });
   h += '</div></div>';
 
@@ -766,6 +779,29 @@ function render(){
   }
 
   document.getElementById('cv').innerHTML = h;
+  save();
+}
+
+function save(){
+  try {
+    D.name = document.getElementById('f-name').value;
+    D.title = document.getElementById('f-title').value;
+    D.phone = document.getElementById('f-phone').value;
+    D.email = document.getElementById('f-email').value;
+    D.location = document.getElementById('f-location').value;
+    D.summary = document.getElementById('f-summary').value;
+    D.skills = document.getElementById('f-skills').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    localStorage.setItem('cv_data', JSON.stringify(D));
+  } catch(e) {
+    console.error("Error saving data:", e);
+  }
+}
+
+function resetTemplate(){
+  if(confirm('Are you sure you want to discard all changes and reset to the default template?')){
+    localStorage.removeItem('cv_data');
+    location.reload();
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -781,8 +817,8 @@ function printCV(){
     'html,body{width:210mm;min-height:297mm;background:#fff;}'+
     'body{font-family:"Source Sans 3",sans-serif;color:#111;background:#fff;font-size:9.4pt;line-height:1.45;padding:12mm 14mm;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'+
     '.cv-hd{padding-bottom:10px;border-bottom:2.5px solid var(--blue);margin-bottom:12px;}'+
-    '.cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:var(--blue);line-height:1.05;}'+
-    '.cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:#444;margin-top:3px;text-transform:uppercase;}'+
+    '.cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#000;line-height:1.05;}'+
+    '.cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}'+
     '.cv-contacts{margin-top:5px;font-size:8.2pt;color:#333;display:flex;flex-wrap:wrap;gap:3px 0;align-items:center;}'+
     '.cv-contacts .ci::after{content:" | ";color:#bbb;}'+
     '.cv-contacts .ci:last-child::after{content:"";}'+
@@ -826,7 +862,7 @@ function printCV(){
   // Create hidden iframe
   var iframe = document.createElement('iframe');
   iframe.id = '__print_frame';
-  iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:none;';
+  iframe.style.cssText = 'position:fixed;top:0;left:-220mm;width:210mm;height:297mm;border:none;opacity:0;pointer-events:none;';
   document.body.appendChild(iframe);
 
   var doc = iframe.contentDocument || iframe.contentWindow.document;
@@ -852,7 +888,17 @@ function printCV(){
    INIT
 ══════════════════════════════════════════ */
 function init(){
-  document.getElementById('f-name').value     = D.name;
+  const saved = localStorage.getItem('cv_data');
+  if(saved){
+    try {
+      const parsed = JSON.parse(saved);
+      Object.assign(D, parsed);
+    } catch(e) {
+      console.error("Error loading data:", e);
+    }
+  }
+
+  document.getElementById('f-name').value     = D.name || '';
   document.getElementById('f-title').value    = D.title;
   document.getElementById('f-phone').value    = D.phone;
   document.getElementById('f-email').value    = D.email;
