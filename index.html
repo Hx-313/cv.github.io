@@ -49,7 +49,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 #form-panel::-webkit-scrollbar{width:4px;}
 #form-panel::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
 #preview-panel{
-  flex:1;overflow-y:auto;background:#dddad4;
+  flex:1;min-width:0;overflow-y:auto;background:#dddad4;
   display:flex;justify-content:center;padding:28px 16px 60px;
 }
 #preview-panel::-webkit-scrollbar{width:6px;}
@@ -124,7 +124,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 
 /* CV PREVIEW */
 #cv{
-  width:720px;background:#fff;padding:40px 50px 50px;
+  width:min(720px,100%);background:#fff;padding:40px 50px 50px;
   box-shadow:0 4px 36px rgba(0,0,0,.18);
   font-family:var(--font);font-size:9.4pt;color:#111;line-height:1.45;
 }
@@ -133,11 +133,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 #cv .cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}
 #cv .cv-contacts{margin-top:6px;font-size:8.2pt;color:#333;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;}
 #cv .cv-contacts .ci{color:#333;display:inline-flex;align-items:center;font-weight:600;}
+#cv .cv-contacts .ci,
 #cv .cv-contacts a.ci-link{
+  max-width:100%;overflow-wrap:anywhere;word-break:break-word;
+}
+#cv a.ci-link{
   color:#333;text-decoration:underline;font-weight:600;font-size:8.2pt;
   display:inline-flex;align-items:center;transition:color .15s;
 }
-#cv .cv-contacts a.ci-link:hover{color:var(--blue);}
+#cv a.ci-link:hover{color:var(--blue);}
 .cv-icon{
   width:11px;height:11px;color:var(--blue);display:inline-block;
   vertical-align:middle;margin-right:4px;flex-shrink:0;
@@ -203,12 +207,35 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 #cv .cv-ref-name{font-size:9.4pt;font-weight:700;color:#111;}
 #cv .cv-ref-role{font-size:8.2pt;color:var(--blue);font-weight:700;line-height:1.35;white-space:pre-line;}
 #cv .cv-ref-c{font-size:8.2pt;color:#444;margin-top:2px;}
+#cv .cv-ref-c a{color:#444;text-decoration:underline;overflow-wrap:anywhere;word-break:break-word;}
+
+@media screen and (max-width:900px){
+  #toolbar{position:static;align-items:flex-start;flex-direction:column;padding:10px 14px;}
+  #toolbar .tl{width:100%;}
+  #toolbar>div:last-child{width:100%;flex-wrap:wrap;}
+  #app{height:auto;min-height:calc(100vh - 50px);flex-direction:column;}
+  #form-panel{width:100%;min-width:0;border-right:0;border-bottom:1px solid var(--border);max-height:none;}
+  #preview-panel{padding:18px 10px 44px;overflow:visible;}
+  #cv{padding:28px 24px 34px;}
+  #cv .cv-name{font-size:18pt;}
+  #cv .cv-edu{flex-direction:column;gap:6px;}
+  #cv .cv-edu-r{border-left:0;border-top:1.5px solid #dcdadb;margin-left:0;padding-left:0;padding-top:6px;min-width:0;}
+  #cv .cv-proj-grid,#cv .cv-refs{grid-template-columns:1fr;}
+}
+
+@media screen and (max-width:520px){
+  #toolbar h2{width:100%;}
+  .tbtn{width:100%;justify-content:center;}
+  .link-row .lr-label-row{flex-direction:column;}
+  #cv{padding:22px 16px 28px;}
+  #cv .cv-name{font-size:15pt;letter-spacing:.8px;}
+  #cv .cv-role{font-size:8pt;letter-spacing:.3px;}
+  #cv .cv-contacts{gap:4px 10px;}
+}
 
 @media print{
   @page{size:A4;margin:0;}
   html,body{width:210mm;min-height:297mm;margin:0!important;padding:0!important;background:#fff!important;}
-  body *{visibility:hidden!important;}
-  #cv,#cv *{visibility:visible!important;}
   #toolbar,#form-panel{display:none!important;}
   #app,#preview-panel{
     display:block!important;width:auto!important;height:auto!important;overflow:visible!important;
@@ -456,6 +483,10 @@ function linkHref(url){
   if(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(url)) return 'mailto:' + url;
   if(/^\+?[\d\s().-]{7,}$/.test(url)) return 'tel:' + url.replace(/\s+/g, '');
   return 'https://' + url.replace(/^\/+/, '');
+}
+function contactAnchor(value, icon){
+  if(!value) return '';
+  return '<a class="ci-link" href="'+esc(linkHref(value))+'">'+icon+bf(value)+'</a>';
 }
 function tog(hd){
   hd.nextElementSibling.classList.toggle('open');
@@ -759,8 +790,8 @@ function render(){
   h += '<div class="cv-name">'+bf(name)+'</div>';
   h += '<div class="cv-role">'+bf(title)+'</div>';
   h += '<div class="cv-contacts">';
-  if(phone) h += '<span class="ci">'+phoneIcon+bf(phone)+'</span>';
-  if(email) h += '<span class="ci">'+emailIcon+bf(email)+'</span>';
+  if(phone) h += contactAnchor(phone, phoneIcon);
+  if(email) h += contactAnchor(email, emailIcon);
   // Clickable links
   var validLinks = D.links.filter(function(lk){ return lk.label && lk.url; });
   validLinks.forEach(function(lk){
@@ -856,8 +887,8 @@ function render(){
       h += '<div'+borderStyle+'>';
       h += '<div class="cv-ref-name">'+bf(r.name)+'</div>';
       h += '<div class="cv-ref-role">'+nl2br(r.role)+'</div>';
-      h += '<div class="cv-ref-c">'+bf(r.email)+'</div>';
-      h += '<div class="cv-ref-c">'+bf(r.phone)+'</div>';
+      if(r.email) h += '<div class="cv-ref-c">'+contactAnchor(r.email, emailIcon)+'</div>';
+      if(r.phone) h += '<div class="cv-ref-c">'+contactAnchor(r.phone, phoneIcon)+'</div>';
       h += '</div>';
     });
     h += '</div></div>';
@@ -890,40 +921,19 @@ function resetTemplate(){
 }
 
 /* ══════════════════════════════════════════
-   PRINT — hidden iframe, never blocked,
-   no browser timestamp / filename stamps
+   PRINT - direct browser print, keeps live anchors
 ══════════════════════════════════════════ */
 function printCV(){
-  var cvHTML = document.getElementById('cv').innerHTML;
-  var css = document.querySelector('style').innerHTML;
-
-  // Remove any existing print iframe
-  var old = document.getElementById('__print_frame');
-  if(old) old.parentNode.removeChild(old);
-
-  // Create hidden iframe
-  var iframe = document.createElement('iframe');
-  iframe.id = '__print_frame';
-  iframe.style.cssText = 'position:fixed;top:0;left:-9999px;width:210mm;height:297mm;border:none;z-index:-9999;';
-  document.body.appendChild(iframe);
-
-  var doc = iframe.contentDocument || iframe.contentWindow.document;
-  doc.open();
-  doc.write(
-    '<!DOCTYPE html><html><head><meta charset="UTF-8">'+
-    '<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700;900&display=swap" rel="stylesheet">'+
-    '<style>'+css+'</style></head>'+
-    '<body><div id="cv">'+cvHTML+'</div></body></html>'
-  );
-  doc.close();
-
-  // Wait for fonts then print
-  iframe.onload = function(){
-    setTimeout(function(){
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-    }, 600);
-  };
+  var printNow = function(){ window.focus(); window.print(); };
+  if(!sessionStorage.getItem('cv_pdf_link_tip')){
+    sessionStorage.setItem('cv_pdf_link_tip', '1');
+    alert('For clickable links, set Destination to "Save as PDF" in Chrome or Edge. Do not use "Microsoft Print to PDF" or other printer drivers. Enable Background graphics if styles look incomplete.');
+  }
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(printNow).catch(printNow);
+  } else {
+    setTimeout(printNow, 300);
+  }
 }
 
 /* ══════════════════════════════════════════
