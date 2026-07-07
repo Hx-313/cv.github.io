@@ -122,12 +122,73 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 }
 .btn-rm:hover{text-decoration:underline;}
 
-/* CV PREVIEW */
-#cv{
-  width:min(720px,100%);background:#fff;padding:40px 50px 50px;
-  box-shadow:0 4px 36px rgba(0,0,0,.18);
-  font-family:var(--font);font-size:9.4pt;color:#111;line-height:1.45;
+/* ═══════════════════════════════════════
+   CV PREVIEW — A4 PAGE SYSTEM
+═══════════════════════════════════════ */
+#cv {
+  width: 210mm;
+  font-family: var(--font);
+  font-size: 9.4pt;
+  color: #111;
+  line-height: 1.45;
+  margin: 0 auto;
 }
+
+.cv-page {
+  width: 210mm;
+  min-height: 297mm;
+  height: 297mm;
+  padding: 15mm 15mm 20mm 15mm;
+  background: #fff;
+  box-shadow: 0 4px 30px rgba(0,0,0,.15);
+  margin-bottom: 24px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.cv-page-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  font-size: 8pt;
+  color: #888;
+  font-weight: 500;
+  font-family: var(--font);
+  pointer-events: none;
+}
+.cv-footer-line {
+  border-top: 1px solid #e0dcd6;
+  margin-bottom: 5px;
+}
+.cv-footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Sibling item borders (via CSS adjacency) */
+.cv-job + .cv-job { border-top: 1px dotted #ccc; padding-top: 10px; }
+.cv-edu + .cv-edu { border-top: 1px dotted #ccc; padding-top: 10px; }
+.cv-cert + .cv-cert { border-top: 1px dotted #ccc; padding-top: 8px; }
+
+/* Hidden sandbox for measuring block heights */
+#cv-sandbox {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 210mm;
+  padding: 15mm 15mm 20mm 15mm;
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: 9.4pt;
+  color: #111;
+  line-height: 1.45;
+  visibility: hidden;
+  background: white;
+}
+
 #cv .cv-hd{padding-bottom:10px;border-bottom:2.5px solid var(--blue);margin-bottom:12px;}
 #cv .cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#000;line-height:1.05;}
 #cv .cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}
@@ -216,35 +277,44 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
   #app{height:auto;min-height:calc(100vh - 50px);flex-direction:column;}
   #form-panel{width:100%;min-width:0;border-right:0;border-bottom:1px solid var(--border);max-height:none;}
   #preview-panel{padding:18px 10px 44px;overflow:visible;}
-  #cv{padding:28px 24px 34px;}
-  #cv .cv-name{font-size:18pt;}
-  #cv .cv-edu{flex-direction:column;gap:6px;}
-  #cv .cv-edu-r{border-left:0;border-top:1.5px solid #dcdadb;margin-left:0;padding-left:0;padding-top:6px;min-width:0;}
-  #cv .cv-proj-grid,#cv .cv-refs{grid-template-columns:1fr;}
 }
 
 @media screen and (max-width:520px){
   #toolbar h2{width:100%;}
   .tbtn{width:100%;justify-content:center;}
   .link-row .lr-label-row{flex-direction:column;}
-  #cv{padding:22px 16px 28px;}
-  #cv .cv-name{font-size:15pt;letter-spacing:.8px;}
-  #cv .cv-role{font-size:8pt;letter-spacing:.3px;}
-  #cv .cv-contacts{gap:4px 10px;}
 }
 
 @media print{
   @page{size:A4;margin:0;}
-  html,body{width:210mm;min-height:297mm;margin:0!important;padding:0!important;background:#fff!important;}
-  #toolbar,#form-panel{display:none!important;}
+  html,body{width:210mm;height:auto;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important;}
+  #toolbar,#form-panel,#cv-sandbox{display:none!important;}
   #app,#preview-panel{
-    display:block!important;width:auto!important;height:auto!important;overflow:visible!important;
+    display:block!important;width:210mm!important;height:auto!important;overflow:visible!important;
     margin:0!important;padding:0!important;background:#fff!important;
   }
+  #cv-scale-outer,#cv-scale-wrapper{
+    width:210mm!important;height:auto!important;transform:none!important;
+    margin:0!important;padding:0!important;
+  }
   #cv{
-    position:absolute;left:0;top:0;width:210mm!important;min-height:297mm!important;
-    margin:0!important;padding:12mm 14mm!important;box-shadow:none!important;background:#fff!important;
+    display:block!important;width:210mm!important;height:auto!important;
+    margin:0!important;padding:0!important;box-shadow:none!important;background:#fff!important;
+    transform:none!important;
+  }
+  .cv-page{
+    width:210mm!important;height:297mm!important;
+    padding:15mm 15mm 20mm 15mm!important;
+    margin:0!important;box-shadow:none!important;
+    page-break-after:always!important;
+    page-break-inside:avoid!important;
+    position:relative!important;background:#fff!important;
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .cv-page:last-child{page-break-after:avoid!important;}
+  .cv-page-footer{
+    position:absolute!important;bottom:8mm!important;left:15mm!important;right:15mm!important;
+    display:block!important;
   }
 }
 </style>
@@ -336,9 +406,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 
   <!-- PREVIEW PANEL -->
   <div id="preview-panel">
-    <div id="cv"></div>
+    <div id="cv-scale-outer">
+      <div id="cv-scale-wrapper">
+        <div id="cv"></div>
+      </div>
+    </div>
   </div>
 </div>
+
+<div id="cv-sandbox"></div>
 
 <script>
 /* ══════════════════════════════════════════
@@ -547,7 +623,6 @@ function buildLinks(){
       '<button class="link-rm" data-i="' + i + '" title="Remove">✕</button>';
     w.appendChild(row);
   });
-  // Attach events after DOM insert
   w.querySelectorAll('.lr-input').forEach(function(inp){
     inp.addEventListener('input', function(){
       const idx = parseInt(this.dataset.i);
@@ -772,7 +847,90 @@ function buildRefs(){
 function addRef(){ D.refs.push({name:'',role:'',email:'',phone:''}); buildRefs(); render(); }
 
 /* ══════════════════════════════════════════
-   RENDER CV
+   PAGINATION & SCALING UTILITIES
+══════════════════════════════════════════ */
+let maxContentHeightPx = 0;
+
+function updateMaxContentHeight() {
+  // 297mm page - 15mm top padding - 20mm bottom padding - ~12mm footer = ~250mm safe area
+  const testPage = document.createElement('div');
+  testPage.className = 'cv-page';
+  testPage.style.position = 'absolute';
+  testPage.style.visibility = 'hidden';
+  testPage.style.left = '-9999px';
+  testPage.style.top = '-9999px';
+
+  const measureChild = document.createElement('div');
+  measureChild.style.height = '250mm';
+  testPage.appendChild(measureChild);
+
+  document.body.appendChild(testPage);
+  maxContentHeightPx = measureChild.getBoundingClientRect().height;
+  document.body.removeChild(testPage);
+}
+
+function assembleBlocksHtml(blocksArray) {
+  let html = '';
+  let currentSection = null;
+  let sectionBlocks = [];
+
+  function flushSection() {
+    if (sectionBlocks.length === 0) return;
+    if (currentSection === 'header') {
+      html += sectionBlocks.map(b => b.html).join('');
+    } else {
+      html += '<div class="sec">' + sectionBlocks.map(b => b.html).join('') + '</div>';
+    }
+    sectionBlocks = [];
+  }
+
+  blocksArray.forEach(block => {
+    const secName = block.section || 'header';
+    if (secName !== currentSection) {
+      flushSection();
+      currentSection = secName;
+    }
+    sectionBlocks.push(block);
+  });
+  flushSection();
+
+  return html;
+}
+
+function measureBlocksHeight(blocksArray) {
+  const sandbox = document.getElementById('cv-sandbox');
+  sandbox.innerHTML = assembleBlocksHtml(blocksArray);
+  const h = sandbox.getBoundingClientRect().height;
+  return h;
+}
+
+function adjustScale() {
+  const panel = document.getElementById('preview-panel');
+  const wrapper = document.getElementById('cv-scale-wrapper');
+  const outer = document.getElementById('cv-scale-outer');
+  if (!panel || !wrapper || !outer) return;
+
+  const containerWidth = panel.clientWidth - 56; // padding
+  const pageWidthPx = 794; // ~210mm at 96dpi
+
+  if (containerWidth < pageWidthPx) {
+    const scale = containerWidth / pageWidthPx;
+    wrapper.style.transform = 'scale(' + scale + ')';
+    wrapper.style.transformOrigin = 'top center';
+    // Set outer height so scroll works properly
+    outer.style.height = (wrapper.scrollHeight * scale) + 'px';
+    outer.style.width = containerWidth + 'px';
+  } else {
+    wrapper.style.transform = 'none';
+    outer.style.height = 'auto';
+    outer.style.width = '210mm';
+  }
+}
+
+window.addEventListener('resize', adjustScale);
+
+/* ══════════════════════════════════════════
+   RENDER CV — with pagination
 ══════════════════════════════════════════ */
 function render(){
   const name    = document.getElementById('f-name').value;
@@ -783,118 +941,182 @@ function render(){
   const summary = document.getElementById('f-summary').value;
   const skills  = document.getElementById('f-skills').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
 
-  let h = '';
+  updateMaxContentHeight();
 
-  /* HEADER */
-  h += '<div class="cv-hd">';
-  h += '<div class="cv-name">'+bf(name)+'</div>';
-  h += '<div class="cv-role">'+bf(title)+'</div>';
-  h += '<div class="cv-contacts">';
-  if(phone) h += contactAnchor(phone, phoneIcon);
-  if(email) h += contactAnchor(email, emailIcon);
-  // Clickable links
+  /* ── Build logical blocks ── */
+  const blocks = [];
+
+  // HEADER
   var validLinks = D.links.filter(function(lk){ return lk.label && lk.url; });
+  let hh = '<div class="cv-hd">';
+  hh += '<div class="cv-name">'+bf(name)+'</div>';
+  hh += '<div class="cv-role">'+bf(title)+'</div>';
+  hh += '<div class="cv-contacts">';
+  if(phone) hh += contactAnchor(phone, phoneIcon);
+  if(email) hh += contactAnchor(email, emailIcon);
   validLinks.forEach(function(lk){
-    h += '<a class="ci-link" href="'+esc(linkHref(lk.url))+'" target="_blank" rel="noopener">'+linkIcon+esc(lk.label)+'</a>';
+    hh += '<a class="ci-link" href="'+esc(linkHref(lk.url))+'" target="_blank" rel="noopener">'+linkIcon+esc(lk.label)+'</a>';
   });
-  if(loc)   h += '<span class="ci">'+mapPinIcon+bf(loc)+'</span>';
-  h += '</div></div>';
+  if(loc) hh += '<span class="ci">'+mapPinIcon+bf(loc)+'</span>';
+  hh += '</div></div>';
+  blocks.push({ type:'header', section:'header', html:hh });
 
-  /* SUMMARY */
+  // SUMMARY
   if(summary){
-    h += '<div class="sec"><div class="sec-ttl">Summary</div><div class="cv-sum">'+bf(summary)+'</div></div>';
+    blocks.push({ type:'summary', section:'summary',
+      html:'<div class="sec-ttl">Summary</div><div class="cv-sum">'+bf(summary)+'</div>'
+    });
   }
 
-  /* EXPERIENCE */
+  // EXPERIENCE
   if(D.jobs.length){
-    h += '<div class="sec"><div class="sec-ttl">Experience</div>';
-    D.jobs.forEach(function(j, i){
+    blocks.push({ type:'section-title', section:'jobs', html:'<div class="sec-ttl">Experience</div>' });
+    D.jobs.forEach(function(j, idx){
       var buls = j.bullets.filter(function(b){ return (b||'').trim(); });
-      const isLast = (i === D.jobs.length - 1);
-      const borderStyle = isLast ? '' : ' style="border-bottom:1px dotted #ccc;padding-bottom:10px;margin-bottom:10px;"';
-      h += '<div class="cv-job"'+borderStyle+'>';
-      h += '<div class="cv-jt">'+bf(j.title)+'</div>';
-      h += '<div class="cv-jc">'+bf(j.company)+'</div>';
-      h += '<div class="cv-jmeta">' + renderDateLoc(j.date) + '</div>';
-      if(j.desc) h += '<div class="cv-jcd">'+bf(j.desc)+'</div>';
-      if(buls.length){ h += '<ul>'+buls.map(function(b){ return '<li>'+bf(b)+'</li>'; }).join('')+'</ul>'; }
-      h += '</div>';
+      let jh = '<div class="cv-job">';
+      jh += '<div class="cv-jt">'+bf(j.title)+'</div>';
+      jh += '<div class="cv-jc">'+bf(j.company)+'</div>';
+      jh += '<div class="cv-jmeta">' + renderDateLoc(j.date) + '</div>';
+      if(j.desc) jh += '<div class="cv-jcd">'+bf(j.desc)+'</div>';
+      if(buls.length){ jh += '<ul>'+buls.map(function(b){ return '<li>'+bf(b)+'</li>'; }).join('')+'</ul>'; }
+      jh += '</div>';
+      blocks.push({ type:'item', section:'jobs', itemIndex:idx, html:jh });
     });
-    h += '</div>';
   }
 
-  /* EDUCATION */
+  // EDUCATION
   if(D.edu.length){
-    h += '<div class="sec"><div class="sec-ttl">Education</div>';
-    D.edu.forEach(function(e, i){
-      const isLast = (i === D.edu.length - 1);
-      const borderStyle = isLast ? '' : ' style="border-bottom:1px dotted #ccc;padding-bottom:10px;margin-bottom:10px;"';
-      h += '<div class="cv-edu"'+borderStyle+'><div>';
-      h += '<div class="cv-edu-deg">'+bf(e.degree)+'</div>';
-      h += '<div class="cv-edu-inst">'+bf(e.inst)+'</div>';
-      h += '<div class="cv-jmeta">' + renderDateLoc(e.date) + '</div>';
-      h += '</div><div class="cv-edu-r">';
-      h += renderGpaBox(e.gpa);
-      h += '</div></div>';
+    blocks.push({ type:'section-title', section:'edu', html:'<div class="sec-ttl">Education</div>' });
+    D.edu.forEach(function(e, idx){
+      let eh = '<div class="cv-edu"><div>';
+      eh += '<div class="cv-edu-deg">'+bf(e.degree)+'</div>';
+      eh += '<div class="cv-edu-inst">'+bf(e.inst)+'</div>';
+      eh += '<div class="cv-jmeta">' + renderDateLoc(e.date) + '</div>';
+      eh += '</div><div class="cv-edu-r">';
+      eh += renderGpaBox(e.gpa);
+      eh += '</div></div>';
+      blocks.push({ type:'item', section:'edu', itemIndex:idx, html:eh });
     });
-    h += '</div>';
   }
 
-  /* PROJECTS */
+  // PROJECTS (paired into 2-col grid rows)
   if(D.projects.length){
-    h += '<div class="sec"><div class="sec-ttl">Side Projects</div><div class="cv-proj-grid">';
-    D.projects.forEach(function(p, i){
-      const isLastRow = i >= D.projects.length - (D.projects.length % 2 === 0 ? 2 : 1);
-      const borderStyle = isLastRow ? '' : ' style="border-bottom:1px dotted #ccc;padding-bottom:10px;"';
-      h += '<div class="cv-proj-item"'+borderStyle+'>';
-      h += '<div style="display:flex;gap:8px;align-items:flex-start;">';
-      h += getProjectIcon(p.name);
-      h += '<div>';
-      h += '<div class="cv-proj-name">'+bf(p.name)+'</div>';
-      h += '<div class="cv-proj-desc">'+bf(p.desc)+'</div>';
-      h += '</div></div></div>';
-    });
-    h += '</div></div>';
+    blocks.push({ type:'section-title', section:'projects', html:'<div class="sec-ttl">Side Projects</div>' });
+    for(let i = 0; i < D.projects.length; i += 2) {
+      const p1 = D.projects[i];
+      const p2 = D.projects[i+1];
+      let ph = '<div class="cv-proj-grid">';
+      ph += '<div class="cv-proj-item"><div style="display:flex;gap:8px;align-items:flex-start;">';
+      ph += getProjectIcon(p1.name);
+      ph += '<div><div class="cv-proj-name">'+bf(p1.name)+'</div>';
+      ph += '<div class="cv-proj-desc">'+bf(p1.desc)+'</div></div></div></div>';
+      if(p2) {
+        ph += '<div class="cv-proj-item"><div style="display:flex;gap:8px;align-items:flex-start;">';
+        ph += getProjectIcon(p2.name);
+        ph += '<div><div class="cv-proj-name">'+bf(p2.name)+'</div>';
+        ph += '<div class="cv-proj-desc">'+bf(p2.desc)+'</div></div></div></div>';
+      }
+      ph += '</div>';
+      blocks.push({ type:'item', section:'projects', itemIndex:i, html:ph });
+    }
   }
 
-  /* SKILLS */
+  // SKILLS
   if(skills.length){
-    h += '<div class="sec"><div class="sec-ttl">Skills</div><div class="cv-skills">';
-    skills.forEach(function(s){ h += '<span class="cv-skill">'+bf(s)+'</span>'; });
-    h += '</div></div>';
+    blocks.push({ type:'section-title', section:'skills', html:'<div class="sec-ttl">Skills</div>' });
+    let sh = '<div class="cv-skills">';
+    skills.forEach(function(s){ sh += '<span class="cv-skill">'+bf(s)+'</span>'; });
+    sh += '</div>';
+    blocks.push({ type:'item', section:'skills', html:sh });
   }
 
-  /* CERTIFICATIONS */
+  // CERTIFICATIONS
   if(D.certs.length){
-    h += '<div class="sec"><div class="sec-ttl">Certifications</div>';
-    D.certs.forEach(function(c, i){
-      const isLast = (i === D.certs.length - 1);
-      const borderStyle = isLast ? '' : ' style="border-bottom:1px dotted #ccc;padding-bottom:8px;margin-bottom:8px;"';
-      h += '<div class="cv-cert"'+borderStyle+'>';
-      h += '<div class="cv-cert-name">'+bf(c.name)+'</div>';
-      h += '<div class="cv-cert-iss">'+bf(c.iss)+'</div>';
-      h += '</div>';
+    blocks.push({ type:'section-title', section:'certs', html:'<div class="sec-ttl">Certifications</div>' });
+    D.certs.forEach(function(c, idx){
+      let ch = '<div class="cv-cert">';
+      ch += '<div class="cv-cert-name">'+bf(c.name)+'</div>';
+      ch += '<div class="cv-cert-iss">'+bf(c.iss)+'</div>';
+      ch += '</div>';
+      blocks.push({ type:'item', section:'certs', itemIndex:idx, html:ch });
     });
-    h += '</div>';
   }
 
-  /* REFERENCES */
+  // REFERENCES (paired into 2-col grid rows)
   if(D.refs.length){
-    h += '<div class="sec"><div class="sec-ttl">References</div><div class="cv-refs">';
-    D.refs.forEach(function(r, i){
-      const isLastRow = i >= D.refs.length - (D.refs.length % 2 === 0 ? 2 : 1);
-      const borderStyle = isLastRow ? '' : ' style="border-bottom:1px dotted #ccc;padding-bottom:10px;"';
-      h += '<div'+borderStyle+'>';
-      h += '<div class="cv-ref-name">'+bf(r.name)+'</div>';
-      h += '<div class="cv-ref-role">'+nl2br(r.role)+'</div>';
-      if(r.email) h += '<div class="cv-ref-c">'+contactAnchor(r.email, emailIcon)+'</div>';
-      if(r.phone) h += '<div class="cv-ref-c">'+contactAnchor(r.phone, phoneIcon)+'</div>';
-      h += '</div>';
-    });
-    h += '</div></div>';
+    blocks.push({ type:'section-title', section:'refs', html:'<div class="sec-ttl">References</div>' });
+    for(let i = 0; i < D.refs.length; i += 2) {
+      const r1 = D.refs[i];
+      const r2 = D.refs[i+1];
+      let rh = '<div class="cv-refs"><div>';
+      rh += '<div class="cv-ref-name">'+bf(r1.name)+'</div>';
+      rh += '<div class="cv-ref-role">'+nl2br(r1.role)+'</div>';
+      if(r1.email) rh += '<div class="cv-ref-c">'+contactAnchor(r1.email, emailIcon)+'</div>';
+      if(r1.phone) rh += '<div class="cv-ref-c">'+contactAnchor(r1.phone, phoneIcon)+'</div>';
+      rh += '</div>';
+      if(r2) {
+        rh += '<div>';
+        rh += '<div class="cv-ref-name">'+bf(r2.name)+'</div>';
+        rh += '<div class="cv-ref-role">'+nl2br(r2.role)+'</div>';
+        if(r2.email) rh += '<div class="cv-ref-c">'+contactAnchor(r2.email, emailIcon)+'</div>';
+        if(r2.phone) rh += '<div class="cv-ref-c">'+contactAnchor(r2.phone, phoneIcon)+'</div>';
+        rh += '</div>';
+      }
+      rh += '</div>';
+      blocks.push({ type:'item', section:'refs', itemIndex:i, html:rh });
+    }
   }
 
-  document.getElementById('cv').innerHTML = h;
+  /* ── PAGINATION ALGORITHM ── */
+  const pages = [[]];
+  let pi = 0; // current page index
+
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    pages[pi].push(block);
+
+    const height = measureBlocksHeight(pages[pi]);
+    if (height > maxContentHeightPx && pages[pi].length > 1) {
+      // Overflowed — remove the block from this page
+      pages[pi].pop();
+
+      // Widow protection: if a section-title was left alone at the bottom, move it too
+      if (pages[pi].length > 0) {
+        const lastBlock = pages[pi][pages[pi].length - 1];
+        if (lastBlock.type === 'section-title') {
+          pages[pi].pop();
+          i--; // re-process the section-title on next iteration
+        }
+      }
+
+      pi++;
+      pages[pi] = [block];
+    }
+  }
+
+  /* ── RENDER PAGES TO DOM ── */
+  let finalHtml = '';
+  const totalPages = pages.length;
+
+  pages.forEach(function(pageBlocks, index) {
+    const pageNum = index + 1;
+    const pageContentHtml = assembleBlocksHtml(pageBlocks);
+
+    finalHtml += '<div class="cv-page">';
+    finalHtml += pageContentHtml;
+    finalHtml += '<div class="cv-page-footer">';
+    finalHtml += '<div class="cv-footer-line"></div>';
+    finalHtml += '<div class="cv-footer-content">';
+    finalHtml += '<span>' + bf(name) + ' — CV</span>';
+    finalHtml += '<span>Page ' + pageNum + ' of ' + totalPages + '</span>';
+    finalHtml += '</div></div>';
+    finalHtml += '</div>';
+  });
+
+  document.getElementById('cv').innerHTML = finalHtml;
+  document.getElementById('cv-sandbox').innerHTML = '';
+
+  adjustScale();
   save();
 }
 
