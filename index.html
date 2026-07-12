@@ -4,375 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CV – Hafiz Ali Abdullah</title>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --blue:#0b5ed7;--blue-light:#3b82f6;--blue-dark:#1d4ed8;
-  --black:#111;--dark:#222;--muted:#555;--light-muted:#888;
-  --border:#ccc;--bg:#eae8e3;--panel-bg:#fff;
-  --font:'Source Sans 3',sans-serif;--radius:5px;
-}
-body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:14px;}
-
-/* TOOLBAR */
-#toolbar{
-  position:sticky;top:0;z-index:200;background:#1a1a1a;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:9px 22px;gap:10px;box-shadow:0 2px 10px rgba(0,0,0,.35);
-}
-#toolbar .tl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-#toolbar h2{color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.6px;white-space:nowrap;}
-.badge{background:var(--blue);color:#fff;font-size:9.5px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.4px;}
-.tbtn{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:6px 14px;border-radius:var(--radius);
-  font-family:var(--font);font-size:12px;font-weight:700;
-  letter-spacing:.3px;cursor:pointer;border:2px solid transparent;
-  transition:all .16s;white-space:nowrap;
-}
-.tbtn-bold{background:#fff;color:#1a1a1a;border-color:#fff;}
-.tbtn-bold:hover{background:#e8e4de;}
-.tbtn-bold.active{background:var(--blue);color:#fff;border-color:var(--blue);}
-.tbtn-print{background:var(--blue);color:#fff;border-color:var(--blue);}
-.tbtn-print:hover{background:var(--blue-dark);border-color:var(--blue-dark);}
-.tbtn-reset{background:#444;color:#fff;border-color:#444;}
-.tbtn-reset:hover{background:#555;border-color:#555;}
-
-/* LAYOUT */
-#app{display:flex;height:calc(100vh - 50px);}
-#form-panel{
-  width:360px;min-width:300px;flex-shrink:0;
-  background:var(--panel-bg);border-right:1px solid var(--border);
-  overflow-y:auto;padding:16px 14px 60px;
-}
-#form-panel::-webkit-scrollbar{width:4px;}
-#form-panel::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px;}
-#preview-panel{
-  flex:1;min-width:0;overflow-y:auto;background:#dddad4;
-  display:flex;justify-content:center;padding:28px 16px 60px;
-}
-#preview-panel::-webkit-scrollbar{width:6px;}
-#preview-panel::-webkit-scrollbar-thumb{background:#bbb;border-radius:4px;}
-
-/* FORM STYLES */
-.fs{margin-bottom:18px;}
-.fs-title{
-  font-size:9.5px;font-weight:700;letter-spacing:1.6px;
-  text-transform:uppercase;color:var(--light-muted);
-  margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid #e0ddd8;
-}
-.fg{margin-bottom:8px;}
-.fg label{display:block;font-size:10px;font-weight:600;color:#555;margin-bottom:2px;letter-spacing:.2px;}
-.fg input,.fg textarea{
-  width:100%;padding:6px 9px;border:1px solid #d5d0ca;border-radius:var(--radius);
-  font-family:var(--font);font-size:11.5px;color:var(--dark);
-  background:#fafafa;resize:vertical;line-height:1.45;
-  transition:border-color .15s,box-shadow .15s;
-}
-.fg input:focus,.fg textarea:focus{
-  outline:none;border-color:var(--blue-light);
-  box-shadow:0 0 0 2px rgba(59,130,246,.12);background:#fff;
-}
-.fg textarea{min-height:50px;}
-.fg textarea.tall{min-height:76px;}
-.hint{font-size:9px;color:#aaa;margin-top:2px;font-style:italic;}
-
-/* LINK ROW — label + url side by side */
-.link-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:8px;background:#f5f2ee;border:1px solid #e0dcd6;border-radius:var(--radius);padding:8px 10px;}
-.link-row .lr-fields{flex:1;display:flex;flex-direction:column;gap:5px;}
-.link-row .lr-input{
-  width:100%;padding:5px 8px;border:1px solid #d5d0ca;border-radius:4px;
-  font-family:var(--font);font-size:11px;color:var(--dark);background:#fff;
-}
-.link-row .lr-input:focus{outline:none;border-color:var(--blue-light);}
-.link-row .lr-label-row{display:flex;gap:5px;}
-.link-row .lr-small{font-size:9px;color:#888;margin-bottom:2px;font-weight:600;}
-.link-rm{
-  background:transparent;border:none;color:#c0392b;
-  font-size:16px;cursor:pointer;padding:2px 4px;line-height:1;
-  align-self:center;flex-shrink:0;
-}
-
-/* COLLAPSIBLE */
-.blk{background:#fafafa;border:1px solid #e0dcd6;border-radius:var(--radius);margin-bottom:8px;overflow:hidden;}
-.blk-hd{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:7px 11px;cursor:pointer;user-select:none;
-  background:#f3f0eb;transition:background .15s;
-}
-.blk-hd:hover{background:#ebe7e0;}
-.blk-lbl{font-size:11px;font-weight:700;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px;}
-.blk-arr{font-size:11px;color:#999;transition:transform .2s;flex-shrink:0;}
-.blk-arr.open{transform:rotate(90deg);}
-.blk-body{padding:10px 11px;display:none;}
-.blk-body.open{display:block;}
-.btn-add{
-  display:inline-flex;align-items:center;gap:4px;
-  background:transparent;border:1px dashed #b0aba4;
-  color:#777;font-size:10.5px;font-weight:600;
-  padding:5px 12px;border-radius:var(--radius);
-  cursor:pointer;margin-top:4px;transition:all .15s;font-family:var(--font);
-}
-.btn-add:hover{border-color:var(--blue);color:var(--blue);background:#f0f5fa;}
-.btn-rm{
-  background:transparent;border:none;color:#c0392b;
-  font-size:11px;cursor:pointer;padding:2px 5px;font-weight:700;
-  font-family:var(--font);margin-top:6px;display:inline-block;
-}
-.btn-rm:hover{text-decoration:underline;}
-
-/* ═══════════════════════════════════════
-   CV PREVIEW — A4 PAGE SYSTEM
-═══════════════════════════════════════ */
-#cv {
-  width: 210mm;
-  font-family: var(--font);
-  font-size: 9.4pt;
-  color: #111;
-  line-height: 1.45;
-  margin: 0 auto;
-}
-
-.cv-page {
-  width: 210mm;
-  min-height: 297mm;
-  height: 297mm;
-  padding: 15mm 15mm 20mm 15mm;
-  background: #fff;
-  box-shadow: 0 4px 30px rgba(0,0,0,.15);
-  margin-bottom: 24px;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-}
-
-.cv-page-footer {
-  position: absolute;
-  bottom: 8mm;
-  left: 15mm;
-  right: 15mm;
-  font-size: 8pt;
-  color: #888;
-  font-weight: 500;
-  font-family: var(--font);
-  pointer-events: none;
-}
-.cv-footer-line {
-  border-top: 1px solid #e0dcd6;
-  margin-bottom: 5px;
-}
-.cv-footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Running header on continuation pages (page 2+) */
-.cv-running-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  border-bottom: 1.5px solid var(--blue);
-  padding-bottom: 5px;
-  margin-bottom: 11px;
-}
-.crh-name {
-  font-size: 10.5pt;
-  font-weight: 900;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #000;
-  white-space: nowrap;
-}
-.crh-role {
-  font-size: 7.5pt;
-  font-weight: 600;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  color: var(--blue);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Sibling item borders (via CSS adjacency) */
-.cv-job + .cv-job { border-top: 1px dotted #ccc; padding-top: 10px; }
-.cv-edu + .cv-edu { border-top: 1px dotted #ccc; padding-top: 10px; }
-.cv-cert + .cv-cert { border-top: 1px dotted #ccc; padding-top: 8px; }
-
-/* Hidden sandbox for measuring block heights */
-#cv-sandbox {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 210mm;
-  padding: 15mm 15mm 20mm 15mm;
-  box-sizing: border-box;
-  font-family: var(--font);
-  font-size: 9.4pt;
-  color: #111;
-  line-height: 1.45;
-  visibility: hidden;
-  background: white;
-}
-
-#cv .cv-hd{padding-bottom:10px;border-bottom:2.5px solid var(--blue);margin-bottom:12px;}
-#cv .cv-name{font-size:22pt;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#000;line-height:1.05;}
-#cv .cv-role{font-size:8.8pt;font-weight:600;letter-spacing:.9px;color:var(--blue);margin-top:3px;text-transform:uppercase;}
-#cv .cv-contacts{margin-top:6px;font-size:8.2pt;color:#333;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:center;}
-#cv .cv-contacts .ci{color:#333;display:inline-flex;align-items:center;font-weight:600;}
-#cv .cv-contacts .ci,
-#cv .cv-contacts a.ci-link{
-  max-width:100%;overflow-wrap:anywhere;word-break:break-word;
-}
-#cv a.ci-link{
-  color:#333;text-decoration:underline;font-weight:600;font-size:8.2pt;
-  display:inline-flex;align-items:center;transition:color .15s;
-}
-#cv a.ci-link:hover{color:var(--blue);}
-.cv-icon{
-  width:11px;height:11px;color:var(--blue);display:inline-block;
-  vertical-align:middle;margin-right:4px;flex-shrink:0;
-}
-
-#cv .sec{margin-bottom:11px;}
-#cv .sec-ttl{
-  font-size:9pt;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
-  color:#111;border-bottom:1.8px solid #111;padding-bottom:2px;margin-bottom:8px;
-}
-#cv .cv-sum{font-size:8.8pt;color:#222;line-height:1.55;text-align:justify;}
-#cv .cv-job{margin-bottom:10px;}
-#cv .cv-jt{font-size:9.4pt;font-weight:700;color:#111;line-height:1.2;}
-#cv .cv-jc{font-size:8.8pt;font-weight:700;color:var(--blue);margin-top:2px;line-height:1.2;}
-#cv .cv-jmeta {
-  font-size: 8pt;
-  color: #555;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  font-weight: 500;
-}
-#cv .cv-jmeta .cv-meta-item {
-  display: inline-flex;
-  align-items: center;
-}
-#cv .cv-jcd{font-size:8.2pt;color:#666;font-style:italic;margin-top:1px;margin-bottom:3px;}
-#cv .cv-job ul{padding-left:15px;margin-top:4px;}
-#cv .cv-job li{font-size:8.6pt;color:#222;margin-bottom:2px;line-height:1.42;}
-#cv .cv-edu{display:flex;justify-content:space-between;align-items:stretch;margin-bottom:8px;}
-#cv .cv-edu-deg{font-size:9.4pt;font-weight:700;color:#111;line-height:1.2;}
-#cv .cv-edu-inst{font-size:8.8pt;font-weight:700;color:var(--blue);margin-top:2px;line-height:1.2;}
-#cv .cv-edu-r{
-  border-left:1.5px solid #dcdadb;
-  padding-left:12px;
-  text-align:left;
-  min-width:100px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  flex-shrink:0;
-  margin-left:16px;
-}
-#cv .cv-edu-gpa-label{font-size:7pt;color:#777;text-transform:uppercase;font-weight:700;letter-spacing:.5px;line-height:1.1;}
-#cv .cv-edu-gpa-val{font-size:9.5pt;font-weight:700;color:var(--blue);margin-top:2px;line-height:1.1;}
-#cv .cv-proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;}
-#cv .cv-proj-item{margin-bottom:2px;}
-#cv .cv-proj-name{font-size:9pt;font-weight:700;color:#111;line-height:1.25;}
-#cv .cv-proj-desc{font-size:8.2pt;color:#444;line-height:1.42;margin-top:2px;}
-.proj-icon{width:13px;height:13px;color:var(--blue);margin-top:2px;flex-shrink:0;}
-#cv .cv-skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
-#cv .cv-skill{
-  background:#fff;color:#222;border:1px solid #d1d5db;border-bottom:2px solid #a3a9b3;
-  font-size:7.8pt;font-weight:700;padding:2px 8px;border-radius:4px;display:inline-block;line-height:1.5;
-}
-#cv .cv-cert{margin-bottom:6px;}
-#cv .cv-cert-name{font-size:9pt;font-weight:700;color:#111;}
-#cv .cv-cert-iss{font-size:8pt;color:var(--blue);font-weight:700;}
-#cv .cv-refs{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;}
-#cv .cv-ref-name{font-size:9.4pt;font-weight:700;color:#111;}
-#cv .cv-ref-role{font-size:8.2pt;color:var(--blue);font-weight:700;line-height:1.35;white-space:pre-line;}
-#cv .cv-ref-c{font-size:8.2pt;color:#444;margin-top:2px;}
-#cv .cv-ref-c a{color:#444;text-decoration:underline;overflow-wrap:anywhere;word-break:break-word;}
-
-@media screen and (max-width:900px){
-  #toolbar{position:static;align-items:flex-start;flex-direction:column;padding:10px 14px;}
-  #toolbar .tl{width:100%;}
-  #toolbar>div:last-child{width:100%;flex-wrap:wrap;}
-  #app{height:auto;min-height:calc(100vh - 50px);flex-direction:column;}
-  #form-panel{width:100%;min-width:0;border-right:0;border-bottom:1px solid var(--border);max-height:none;}
-  #preview-panel{padding:18px 10px 44px;overflow:visible;}
-}
-
-@media screen and (max-width:520px){
-  #toolbar h2{width:100%;}
-  .tbtn{width:100%;justify-content:center;}
-  .link-row .lr-label-row{flex-direction:column;}
-}
-
-@media print{
-  @page{size:A4;margin:0;}
-  html,body{width:210mm;height:auto;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important;}
-  #toolbar,#form-panel,#cv-sandbox{display:none!important;}
-  #app,#preview-panel{
-    display:block!important;width:210mm!important;height:auto!important;overflow:visible!important;
-    margin:0!important;padding:0!important;background:#fff!important;
-  }
-  #cv-scale-outer,#cv-scale-wrapper{
-    width:210mm!important;height:auto!important;transform:none!important;
-    margin:0!important;padding:0!important;
-  }
-  #cv{
-    display:block!important;width:210mm!important;height:auto!important;
-    margin:0!important;padding:0!important;box-shadow:none!important;background:#fff!important;
-    transform:none!important;
-  }
-  .cv-page{
-    width:210mm!important;height:297mm!important;
-    padding:15mm 15mm 20mm 15mm!important;
-    margin:0!important;box-shadow:none!important;
-    page-break-after:always!important;
-    page-break-inside:avoid!important;
-    position:relative!important;background:#fff!important;
-    -webkit-print-color-adjust:exact;print-color-adjust:exact;
-  }
-  .cv-page:last-child{page-break-after:avoid!important;}
-  .cv-page-footer{
-    position:absolute!important;bottom:8mm!important;left:15mm!important;right:15mm!important;
-    display:block!important;
-  }
-  .cv-running-header{display:flex!important;}
-  .cv-job,.cv-edu,.cv-cert,.cv-proj-grid,.cv-refs,.cv-proj-item{
-    break-inside:avoid!important;page-break-inside:avoid!important;
-  }
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/app.css">
+<link rel="stylesheet" href="styles/resume.css">
 </head>
 <body>
 
-<!-- TOOLBAR -->
+<!-- APP BAR -->
 <div id="toolbar">
-  <div class="tl">
-    <h2>✦ CV EDITOR</h2>
-    <span class="badge">LIVE</span>
-    <button class="tbtn tbtn-bold" id="boldBtn" onclick="applyBold()">
-      <b style="font-size:14px;line-height:1">B</b>&nbsp;Bold Selected Text
+  <div class="tb-left">
+    <div class="tb-brand">
+      <span class="tb-mark">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+      </span>
+      <span class="tb-brand-txt">
+        <span class="tb-name">CV Editor</span>
+        <span class="tb-sub">Resume Builder</span>
+      </span>
+    </div>
+    <span class="tb-div" aria-hidden="true"></span>
+    <button class="tbtn tbtn-bold" id="boldBtn" onclick="applyBold()" title="Select text in any field, then bold it">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M6 12h8a4 4 0 0 0 0-8H6z"/><path d="M6 12h9a4 4 0 0 1 0 8H6z"/></svg> Bold
     </button>
-    <span style="color:#555;font-size:10px;">← select text in any field first</span>
   </div>
-  <div style="display:flex;gap:10px;align-items:center;">
-    <button class="tbtn tbtn-reset" onclick="resetTemplate()">🔄&nbsp; Reset to Default</button>
-    <button class="tbtn tbtn-print" onclick="printCV()">🖨&nbsp; Print / Save PDF</button>
+  <div class="tb-actions">
+    <button class="tbtn tbtn-ai" onclick="openAI()">
+      <svg class="ic" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/></svg> AI Tailor
+    </button>
+    <button class="tbtn tbtn-reset" onclick="resetTemplate()">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Reset
+    </button>
+    <button class="tbtn tbtn-print" onclick="printCV()">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg> Print / Save PDF
+    </button>
   </div>
 </div>
 
 <div id="app">
   <!-- FORM PANEL -->
   <div id="form-panel">
+
+    <div class="panel-hd">
+      <div class="panel-hd-title">Résumé content</div>
+      <div class="panel-hd-sub">Every change updates the preview instantly</div>
+    </div>
 
     <div class="fs">
       <div class="fs-title">Header</div>
@@ -437,11 +114,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 
   </div>
 
-  <!-- PREVIEW PANEL -->
-  <div id="preview-panel">
-    <div id="cv-scale-outer">
-      <div id="cv-scale-wrapper">
-        <div id="cv"></div>
+  <!-- PREVIEW WORKSPACE -->
+  <div id="preview-col">
+    <div id="pv-bar">
+      <span class="pv-title"><span class="pv-dot"></span> Live preview</span>
+      <span class="pv-meta"><span id="pv-pages">1 page</span><span class="pv-chip">A4 · Portrait</span></span>
+    </div>
+    <div id="preview-panel">
+      <div id="cv-scale-outer">
+        <div id="cv-scale-wrapper">
+          <div id="cv"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -449,836 +132,79 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);font-size:1
 
 <div id="cv-sandbox"></div>
 
-<script>
-/* ══════════════════════════════════════════
-   DATA
-══════════════════════════════════════════ */
-const D = {
-  name: "HAFIZ ALI ABDULLAH",
-  title: "FLUTTER DEVELOPER | ENTERPRISE SYSTEMS & CROSS-PLATFORM SPECIALIST",
-  phone: "+923475662750",
-  email: "aliabdullahva313@gmail.com",
-  location: "Rawalpindi, Pakistan",
-  links: [
-    { label: "LinkedIn", url: "https://linkedin.com/in/hafiz-ali-abdullah" },
-    { label: "GitHub",   url: "https://github.com/Hx-313" }
-  ],
-  summary: "Accomplished Flutter Developer with 3 years of experience specializing in the end-to-end development of large-scale mobile applications. Successfully delivered high-impact, real-world projects, focusing on architecting robust Management Systems (CMS) and sophisticated web-integrated ordering platforms. Proven ability to translate complex business requirements and Figma designs into scalable, production-ready solutions using Clean Architecture and BLoC to drive operational efficiency.",
-  jobs: [
-    {
-      title: "Flutter & Android Developer", company: "TeraMob Pvt Ltd",
-      desc: "Mobile application development company", date: "01/2026 – Present",
-      bullets: [
-        "Architected and deployed 4+ high-traffic applications including Dietify, eBill Checker, Speak & Translate, and Expense Tracking, utilizing Riverpod and Clean Architecture to ensure modularity.",
-        "Engineered sophisticated modules including AI-powered conversation bots, OCR camera translations, and real-time utility bill tracking for multiple national providers.",
-        "Integrated subscription models and ad-network SDKs across all production apps, maintaining 100% stability and high user retention rates."
-      ]
-    },
-    {
-      title: "Flutter & System Developer", company: "Webticians",
-      desc: "Apps, Websites, SEO, E-commerce, Graphic Design and Shopify", date: "12/2025 – Present | Rawalpindi, Pakistan",
-      bullets: [
-        "Engineered a multi-platform \"5-in-1\" ecosystem for restaurants, comprising a Web Ordering System (WOS), a web-based POS, and a dedicated Order Terminal app.",
-        "Developed a sophisticated WOS backend that allows for unlimited restaurant and takeaway registrations, enabling rapid business scaling.",
-        "Digitized the ordering pipeline for cafes and takeaways, bridging the gap between digital consumer menus and physical kitchen fulfillment."
-      ]
-    },
-    {
-      title: "Flutter Developer Intern", company: "OCTALOOP TECHNOLOGIES",
-      desc: "Company specializing in mobile application development", date: "06/2024 – 09/2024",
-      bullets: [
-        "Developed multiple production-level Flutter applications from Figma designs using clean architecture, BLoC, and responsive UI techniques.",
-        "Resolved real-world bugs, optimized screens for various devices, and improved app performance and stability.",
-        "Integrated Firebase Authentication, Firestore, and REST APIs, strengthening backend communication and feature development.",
-        "Gained professional workflow experience including Git, team collaboration, and delivering client-ready features."
-      ]
-    },
-    {
-      title: "Native Android Developer", company: "CENIT",
-      desc: "Networking and IT", date: "05/2024 – 03/2025",
-      bullets: [
-        "Developed Android applications using Java and XML with API integration, RecyclerView, View Binding, and Data Binding.",
-        "Delivered client-focused features, resolved bugs, and implemented enhancements while strengthening debugging and problem-solving skills.",
-        "Integrated Firebase real-time database and local storage for dynamic data handling."
-      ]
-    }
-  ],
-  edu: [
-    { degree: "BS in Computer Science",          inst: "ARID AGRICULTURE UNIVERSITY",    date: "11/2021 – 07/2025 | Rawalpindi, Pakistan", gpa: "GPA: 3.63 / 4.0" },
-    { degree: "Intermediate in Computer Science", inst: "Askaria Schools & Colleges",      date: "01/2019 – 01/2021 | Saddar, Rawalpindi",   gpa: "Percentage: 94 / 100" },
-    { degree: "Matriculation",                    inst: "Askaria Schools & Colleges",      date: "03/2017 – 2019 | Saddar, Rawalpindi",       gpa: "Percentage: 94 / 100" }
-  ],
-  projects: [
-    { name: "Masjid 360 | Full-Stack Community Management System", desc: "Successfully developed a full-stack community management system that improved financial transparency and operational efficiency." },
-    { name: "AI Camera Classifier | Computer Vision (Python/OpenCV)", desc: "Engineered a real-time object identification tool showcasing high-level technical proficiency in computer vision." },
-    { name: "HangAroo Native Game", desc: "Re-implemented complex gameplay logic in Java/Android, managing the full lifecycle from asset management to final optimization." },
-    { name: "Weather Forecast", desc: "A lightweight Flutter application fetching real-time weather data using REST APIs." }
-  ],
-  skills: ["Flutter","Dart","Android Native","XML","Mobile UI Design","Node.js","Express.js","Firebase","RESTful API","MySQL","SqfLite","MongoDB","C/C++","HTML5","CSS3","JavaScript","Payment Gateway","JSON Parsing","IBM","Hostinger","Vercel","Android Studio","Postman","Visual Studio Code","GitHub","Git","Insomnia"],
-  certs: [
-    { name: "Node.js & MongoDB: Developing Back-end Database Applications", iss: "IBM" },
-    { name: "Android Java + Database", iss: "NAVTTC" },
-    { name: "Android Java IT Specialist Badge + Android Java + Database", iss: "Pearson VUE & NAVTTC (Collaborated)" }
-  ],
-  refs: [
-    { name: "Mr. Nouman Bashir",  role: "CEO InterCraft Pvt LTD",                                                                     email: "nbashir@intercraftsol.com",   phone: "+92 336-9237827" },
-    { name: "Mr. Suleman Khurram", role: "Senior Consultant, Checkit Europe\nSr. Software Development Manager, Abiyatech Pvt. Ltd", email: "sulemankhurram@gmail.com",     phone: "+92 313-5345834" }
-  ]
-};
+<!-- AI ATS TAILOR MODAL -->
+<div id="ai-overlay" class="ai-overlay" onclick="if(event.target===this)closeAI()">
+  <div class="ai-modal" role="dialog" aria-modal="true" aria-label="AI CV Tailor">
+    <div class="ai-hd">
+      <div class="ai-title">✨ AI CV Tailor <span class="ai-sub">ATS</span></div>
+      <button class="ai-x" onclick="closeAI()" title="Close">✕</button>
+    </div>
+    <div class="ai-body">
 
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
-const calendarIcon = `<svg class="cv-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v2h-5z"/></svg>`;
-const mapPinIcon = `<svg class="cv-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>`;
-const phoneIcon = `<svg class="cv-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>`;
-const emailIcon = `<svg class="cv-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>`;
-const linkIcon = `<svg class="cv-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>`;
+      <!-- STEP 1: INPUT -->
+      <div id="ai-step-input">
+        <label class="ai-lbl" for="ai-jd">Job Description</label>
+        <textarea id="ai-jd" class="ai-textarea" placeholder="Paste the full job description you're applying to…"></textarea>
 
-function getProjectIcon(name) {
-  name = name.toLowerCase();
-  if (name.includes("masjid")) {
-    return `<svg class="proj-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 2a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m1 4h-2v4H7v2h4v4h2v-4h4v-2h-4z"/></svg>`;
-  } else if (name.includes("classifier") || name.includes("ai")) {
-    return `<svg class="proj-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7m2 18h-4v1h4v-1zm-3-12a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"/></svg>`;
-  } else if (name.includes("game") || name.includes("hangaroo")) {
-    return `<svg class="proj-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m-10 7H8v3H6v-3H3v-2h3V8h2v3h3zm7 2c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1m2-3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1"/></svg>`;
-  } else if (name.includes("weather")) {
-    return `<svg class="proj-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>`;
-  }
-  return `<svg class="proj-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>`;
-}
+        <label class="ai-lbl" for="ai-key">API Key <span class="ai-hint">— stored only in this browser</span></label>
+        <input id="ai-key" type="password" class="ai-input" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
 
-function renderDateLoc(dateStr) {
-  if (!dateStr) return '';
-  const parts = dateStr.split('|').map(s => s.trim());
-  let res = `<span class="cv-meta-item">${calendarIcon}${bf(parts[0])}</span>`;
-  if (parts[1]) {
-    res += `<span class="cv-meta-item" style="margin-left: 14px;">${mapPinIcon}${bf(parts[1])}</span>`;
-  }
-  return res;
-}
+        <details class="ai-adv">
+          <summary>Advanced — API settings</summary>
+          <div class="ai-adv-grid">
+            <div>
+              <label class="ai-lbl" for="ai-model">Model</label>
+              <input id="ai-model" class="ai-input" placeholder="claude-opus-4-8" spellcheck="false">
+            </div>
+            <div>
+              <label class="ai-lbl" for="ai-provider">Provider</label>
+              <input id="ai-provider" class="ai-input" value="Anthropic" disabled>
+            </div>
+            <div class="ai-adv-full">
+              <label class="ai-lbl" for="ai-endpoint">API Endpoint</label>
+              <input id="ai-endpoint" class="ai-input" placeholder="https://api.anthropic.com/v1/messages" spellcheck="false">
+            </div>
+          </div>
+        </details>
 
-function renderGpaBox(gpaStr) {
-  if (!gpaStr) return '';
-  const idx = gpaStr.indexOf(':');
-  let label = 'Result';
-  let val = gpaStr;
-  if (idx !== -1) {
-    label = gpaStr.substring(0, idx).trim();
-    val = gpaStr.substring(idx + 1).trim();
-  } else {
-    const spaceIdx = gpaStr.search(/\s\d/);
-    if (spaceIdx !== -1) {
-      label = gpaStr.substring(0, spaceIdx).trim();
-      val = gpaStr.substring(spaceIdx).trim();
-    }
-  }
-  return `<div class="cv-edu-gpa-label">${esc(label)}</div>` +
-         `<div class="cv-edu-gpa-val">${bf(val)}</div>`;
-}
+        <div id="ai-error" class="ai-error"></div>
+        <div class="ai-note">
+          The AI feature is optional and needs an active API key with credits. The CV editor works fully without it.
+          Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.
+        </div>
+        <div class="ai-actions">
+          <button class="ai-btn ai-btn-ghost" onclick="closeAI()">Cancel</button>
+          <button class="ai-btn ai-btn-primary" id="ai-generate" onclick="runAI()">✨ Generate ATS Version</button>
+        </div>
+      </div>
 
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function bf(s){
-  if(!s) return '';
-  return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-               .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-}
-function nl2br(s){ return bf(s).replace(/\n/g,'<br>'); }
-function linkHref(url){
-  url = (url || '').trim();
-  if(!url) return '';
-  if(/^(https?:|mailto:|tel:)/i.test(url)) return url;
-  if(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(url)) return 'mailto:' + url;
-  if(/^\+?[\d\s().-]{7,}$/.test(url)) return 'tel:' + url.replace(/\s+/g, '');
-  return 'https://' + url.replace(/^\/+/, '');
-}
-function contactAnchor(value, icon){
-  if(!value) return '';
-  return '<a class="ci-link" href="'+esc(linkHref(value))+'">'+icon+bf(value)+'</a>';
-}
-function tog(hd){
-  hd.nextElementSibling.classList.toggle('open');
-  hd.querySelector('.blk-arr').classList.toggle('open');
-}
+      <!-- STEP 2: LOADING -->
+      <div id="ai-step-loading" style="display:none">
+        <div class="ai-loading">
+          <div class="ai-spinner"></div>
+          <div class="ai-loading-txt">Claude is tailoring your CV to the job…</div>
+          <div class="ai-loading-sub">This usually takes 20–40 seconds.</div>
+        </div>
+      </div>
 
-/* ══════════════════════════════════════════
-   BOLD — tracks focus & selection correctly
-══════════════════════════════════════════ */
-let _el = null, _s0 = 0, _s1 = 0;
-document.addEventListener('focusin', e => {
-  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') _el = e.target;
-});
-document.addEventListener('selectionchange', () => {
-  if(_el){ _s0 = _el.selectionStart; _s1 = _el.selectionEnd; }
-});
-['mouseup','keyup','keydown'].forEach(ev =>
-  document.addEventListener(ev, () => { if(_el){ _s0=_el.selectionStart; _s1=_el.selectionEnd; } })
-);
+      <!-- STEP 3: REVIEW -->
+      <div id="ai-step-result" style="display:none">
+        <div id="ai-result-content"></div>
+        <div class="ai-actions">
+          <button class="ai-btn ai-btn-ghost" onclick="aiBack()">← Back</button>
+          <button class="ai-btn ai-btn-primary" onclick="applyAI()">Apply to CV</button>
+        </div>
+      </div>
 
-function applyBold(){
-  if(!_el){ alert('Click inside any text field first, select some text, then click Bold.'); return; }
-  let s = _el.selectionStart, e = _el.selectionEnd;
-  if(s===e){ s=_s0; e=_s1; }
-  if(s===e){ alert('Please select some text first, then click Bold.'); return; }
-  const v=_el.value, sel=v.slice(s,e), before=v.slice(0,s), after=v.slice(e);
-  let nv, nc;
-  if(before.endsWith('**')&&after.startsWith('**')){
-    nv = v.slice(0,s-2)+sel+v.slice(e+2); nc = s-2+sel.length;
-  } else {
-    nv = before+'**'+sel+'**'+after; nc = s+2+sel.length+2;
-  }
-  _el.value = nv;
-  _el.focus();
-  _el.setSelectionRange(nc,nc);
-  _el.dispatchEvent(new Event('input'));
-  const btn=document.getElementById('boldBtn');
-  btn.classList.add('active');
-  setTimeout(()=>btn.classList.remove('active'),600);
-}
+    </div>
+  </div>
+</div>
 
-/* ══════════════════════════════════════════
-   BUILD: LINKS
-══════════════════════════════════════════ */
-function buildLinks(){
-  const w = document.getElementById('links-wrap');
-  w.innerHTML = '';
-  D.links.forEach(function(lk, i){
-    const row = document.createElement('div');
-    row.className = 'link-row';
-    row.innerHTML =
-      '<div class="lr-fields">' +
-        '<div><div class="lr-small">LABEL (shown in CV)</div>' +
-          '<input class="lr-input" placeholder="e.g. LinkedIn, Portfolio" value="' + esc(lk.label) + '" data-i="' + i + '" data-f="label"></div>' +
-        '<div><div class="lr-small">URL (full https:// link)</div>' +
-          '<input class="lr-input" placeholder="https://..." value="' + esc(lk.url) + '" data-i="' + i + '" data-f="url"></div>' +
-      '</div>' +
-      '<button class="link-rm" data-i="' + i + '" title="Remove">✕</button>';
-    w.appendChild(row);
-  });
-  w.querySelectorAll('.lr-input').forEach(function(inp){
-    inp.addEventListener('input', function(){
-      const idx = parseInt(this.dataset.i);
-      const field = this.dataset.f;
-      D.links[idx][field] = this.value;
-      render();
-    });
-    inp.addEventListener('focus', function(){ _el = this; });
-  });
-  w.querySelectorAll('.link-rm').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      const idx = parseInt(this.dataset.i);
-      D.links.splice(idx, 1);
-      buildLinks();
-      render();
-    });
-  });
-}
-function addLink(){ D.links.push({label:'',url:''}); buildLinks(); render(); }
-
-/* ══════════════════════════════════════════
-   BUILD: JOBS
-══════════════════════════════════════════ */
-function buildJobs(){
-  const w = document.getElementById('jobs-wrap');
-  w.innerHTML = '';
-  D.jobs.forEach(function(j, i){
-    const d = document.createElement('div');
-    d.className = 'blk';
-    d.innerHTML =
-      '<div class="blk-hd" onclick="tog(this)">' +
-        '<span class="blk-lbl">' + (esc(j.title)||'New Job') + '</span>' +
-        '<span class="blk-arr open">▶</span>' +
-      '</div>' +
-      '<div class="blk-body open">' +
-        '<div class="fg"><label>Job Title</label>' +
-          '<input data-i="'+i+'" data-f="title" value="'+esc(j.title)+'"></div>' +
-        '<div class="fg"><label>Company</label>' +
-          '<input data-i="'+i+'" data-f="company" value="'+esc(j.company)+'"></div>' +
-        '<div class="fg"><label>Company Description</label>' +
-          '<input data-i="'+i+'" data-f="desc" value="'+esc(j.desc)+'"></div>' +
-        '<div class="fg"><label>Date / Location</label>' +
-          '<input data-i="'+i+'" data-f="date" value="'+esc(j.date)+'"></div>' +
-        '<div class="fg"><label>Bullet Points (one per line)</label>' +
-          '<textarea class="tall" data-i="'+i+'" data-f="bullets">'+esc(j.bullets.join('\n'))+'</textarea>' +
-          '<div class="hint">Select text → Bold button</div></div>' +
-        '<button class="btn-rm" data-i="'+i+'" data-rm="job">✕ Remove this job</button>' +
-      '</div>';
-    w.appendChild(d);
-  });
-  w.querySelectorAll('input[data-f]').forEach(function(inp){
-    inp.addEventListener('input', function(){
-      D.jobs[+this.dataset.i][this.dataset.f] = this.value;
-      if(this.dataset.f==='title') this.closest('.blk').querySelector('.blk-lbl').textContent = this.value||'New Job';
-      render();
-    });
-    inp.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('textarea[data-f]').forEach(function(ta){
-    ta.addEventListener('input', function(){
-      D.jobs[+this.dataset.i].bullets = this.value.split('\n');
-      render();
-    });
-    ta.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('.btn-rm[data-rm="job"]').forEach(function(btn){
-    btn.addEventListener('click', function(){ D.jobs.splice(+this.dataset.i,1); buildJobs(); render(); });
-  });
-}
-function addJob(){ D.jobs.push({title:'',company:'',desc:'',date:'',bullets:['']}); buildJobs(); render(); }
-
-/* ══════════════════════════════════════════
-   BUILD: EDUCATION
-══════════════════════════════════════════ */
-function buildEdu(){
-  const w = document.getElementById('edu-wrap');
-  w.innerHTML = '';
-  D.edu.forEach(function(e, i){
-    const d = document.createElement('div');
-    d.className = 'blk';
-    d.innerHTML =
-      '<div class="blk-hd" onclick="tog(this)">' +
-        '<span class="blk-lbl">'+(esc(e.degree)||'Education')+'</span>' +
-        '<span class="blk-arr open">▶</span>' +
-      '</div>' +
-      '<div class="blk-body open">' +
-        '<div class="fg"><label>Degree</label><input data-i="'+i+'" data-f="degree" value="'+esc(e.degree)+'"></div>' +
-        '<div class="fg"><label>Institution</label><input data-i="'+i+'" data-f="inst" value="'+esc(e.inst)+'"></div>' +
-        '<div class="fg"><label>Date / Location</label><input data-i="'+i+'" data-f="date" value="'+esc(e.date)+'"></div>' +
-        '<div class="fg"><label>GPA / Result</label><input data-i="'+i+'" data-f="gpa" value="'+esc(e.gpa)+'"></div>' +
-        '<button class="btn-rm" data-i="'+i+'" data-rm="edu">✕ Remove</button>' +
-      '</div>';
-    w.appendChild(d);
-  });
-  w.querySelectorAll('input[data-f]').forEach(function(inp){
-    inp.addEventListener('input', function(){
-      D.edu[+this.dataset.i][this.dataset.f] = this.value;
-      if(this.dataset.f==='degree') this.closest('.blk').querySelector('.blk-lbl').textContent = this.value||'Education';
-      render();
-    });
-    inp.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('.btn-rm[data-rm="edu"]').forEach(function(btn){
-    btn.addEventListener('click', function(){ D.edu.splice(+this.dataset.i,1); buildEdu(); render(); });
-  });
-}
-function addEdu(){ D.edu.push({degree:'',inst:'',date:'',gpa:''}); buildEdu(); render(); }
-
-/* ══════════════════════════════════════════
-   BUILD: PROJECTS
-══════════════════════════════════════════ */
-function buildProj(){
-  const w = document.getElementById('proj-wrap');
-  w.innerHTML = '';
-  D.projects.forEach(function(p, i){
-    const d = document.createElement('div');
-    d.className = 'blk';
-    d.innerHTML =
-      '<div class="blk-hd" onclick="tog(this)">' +
-        '<span class="blk-lbl">'+(esc(p.name)||'Project')+'</span>' +
-        '<span class="blk-arr open">▶</span>' +
-      '</div>' +
-      '<div class="blk-body open">' +
-        '<div class="fg"><label>Project Name</label><input data-i="'+i+'" data-f="name" value="'+esc(p.name)+'"></div>' +
-        '<div class="fg"><label>Description</label><textarea data-i="'+i+'" data-f="desc">'+esc(p.desc)+'</textarea></div>' +
-        '<button class="btn-rm" data-i="'+i+'" data-rm="proj">✕ Remove</button>' +
-      '</div>';
-    w.appendChild(d);
-  });
-  w.querySelectorAll('input[data-f]').forEach(function(inp){
-    inp.addEventListener('input', function(){
-      D.projects[+this.dataset.i][this.dataset.f] = this.value;
-      if(this.dataset.f==='name') this.closest('.blk').querySelector('.blk-lbl').textContent = this.value||'Project';
-      render();
-    });
-    inp.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('textarea[data-f]').forEach(function(ta){
-    ta.addEventListener('input', function(){ D.projects[+this.dataset.i][this.dataset.f]=this.value; render(); });
-    ta.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('.btn-rm[data-rm="proj"]').forEach(function(btn){
-    btn.addEventListener('click', function(){ D.projects.splice(+this.dataset.i,1); buildProj(); render(); });
-  });
-}
-function addProj(){ D.projects.push({name:'',desc:''}); buildProj(); render(); }
-
-/* ══════════════════════════════════════════
-   BUILD: CERTS
-══════════════════════════════════════════ */
-function buildCerts(){
-  const w = document.getElementById('cert-wrap');
-  w.innerHTML = '';
-  D.certs.forEach(function(c, i){
-    const d = document.createElement('div');
-    d.className = 'blk';
-    d.innerHTML =
-      '<div class="blk-hd" onclick="tog(this)">' +
-        '<span class="blk-lbl">'+(esc(c.name)||'Certification')+'</span>' +
-        '<span class="blk-arr open">▶</span>' +
-      '</div>' +
-      '<div class="blk-body open">' +
-        '<div class="fg"><label>Certificate Name</label><input data-i="'+i+'" data-f="name" value="'+esc(c.name)+'"></div>' +
-        '<div class="fg"><label>Issuing Organization</label><input data-i="'+i+'" data-f="iss" value="'+esc(c.iss)+'"></div>' +
-        '<button class="btn-rm" data-i="'+i+'" data-rm="cert">✕ Remove</button>' +
-      '</div>';
-    w.appendChild(d);
-  });
-  w.querySelectorAll('input[data-f]').forEach(function(inp){
-    inp.addEventListener('input', function(){
-      D.certs[+this.dataset.i][this.dataset.f] = this.value;
-      if(this.dataset.f==='name') this.closest('.blk').querySelector('.blk-lbl').textContent = this.value||'Certification';
-      render();
-    });
-    inp.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('.btn-rm[data-rm="cert"]').forEach(function(btn){
-    btn.addEventListener('click', function(){ D.certs.splice(+this.dataset.i,1); buildCerts(); render(); });
-  });
-}
-function addCert(){ D.certs.push({name:'',iss:''}); buildCerts(); render(); }
-
-/* ══════════════════════════════════════════
-   BUILD: REFS
-══════════════════════════════════════════ */
-function buildRefs(){
-  const w = document.getElementById('refs-wrap');
-  w.innerHTML = '';
-  D.refs.forEach(function(r, i){
-    const d = document.createElement('div');
-    d.className = 'blk';
-    d.innerHTML =
-      '<div class="blk-hd" onclick="tog(this)">' +
-        '<span class="blk-lbl">'+(esc(r.name)||'Reference')+'</span>' +
-        '<span class="blk-arr open">▶</span>' +
-      '</div>' +
-      '<div class="blk-body open">' +
-        '<div class="fg"><label>Name</label><input data-i="'+i+'" data-f="name" value="'+esc(r.name)+'"></div>' +
-        '<div class="fg"><label>Role / Company</label><textarea data-i="'+i+'" data-f="role">'+esc(r.role)+'</textarea></div>' +
-        '<div class="fg"><label>Email</label><input data-i="'+i+'" data-f="email" value="'+esc(r.email)+'"></div>' +
-        '<div class="fg"><label>Phone</label><input data-i="'+i+'" data-f="phone" value="'+esc(r.phone)+'"></div>' +
-        '<button class="btn-rm" data-i="'+i+'" data-rm="ref">✕ Remove</button>' +
-      '</div>';
-    w.appendChild(d);
-  });
-  w.querySelectorAll('input[data-f]').forEach(function(inp){
-    inp.addEventListener('input', function(){
-      D.refs[+this.dataset.i][this.dataset.f] = this.value;
-      if(this.dataset.f==='name') this.closest('.blk').querySelector('.blk-lbl').textContent = this.value||'Reference';
-      render();
-    });
-    inp.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('textarea[data-f]').forEach(function(ta){
-    ta.addEventListener('input', function(){ D.refs[+this.dataset.i][this.dataset.f]=this.value; render(); });
-    ta.addEventListener('focus', function(){ _el=this; });
-  });
-  w.querySelectorAll('.btn-rm[data-rm="ref"]').forEach(function(btn){
-    btn.addEventListener('click', function(){ D.refs.splice(+this.dataset.i,1); buildRefs(); render(); });
-  });
-}
-function addRef(){ D.refs.push({name:'',role:'',email:'',phone:''}); buildRefs(); render(); }
-
-/* ══════════════════════════════════════════
-   PAGINATION & SCALING UTILITIES
-══════════════════════════════════════════ */
-let maxContentHeightPx = 0;      // usable content height on page 1 (full header)
-let maxContentHeightRestPx = 0;  // usable content height on pages 2+ (running header reserved)
-
-// Off-screen measuring node kept INSIDE #cv so all `#cv .foo` scoped styles
-// (grids, flex skills, font sizes, etc.) apply during measurement. Measuring in
-// a detached/unscoped sandbox inflates heights and breaks pages far too early.
-function getMeasureNode() {
-  const cv = document.getElementById('cv');
-  let m = document.getElementById('cv-measure');
-  if (!m) {
-    m = document.createElement('div');
-    m.id = 'cv-measure';
-    m.style.cssText =
-      'position:absolute;left:-9999px;top:0;visibility:hidden;pointer-events:none;' +
-      'width:210mm;padding:15mm 15mm 20mm 15mm;box-sizing:border-box;' +
-      'height:auto;overflow:visible;';
-  }
-  if (m.parentNode !== cv) cv.appendChild(m); // re-attach if a prior render wiped it
-  return m;
-}
-
-function measureElementHeight(html) {
-  // Outer height (incl. vertical margins) of a single element — used to reserve
-  // room for the running header on continuation pages.
-  const m = getMeasureNode();
-  m.innerHTML = html;
-  const el = m.firstElementChild;
-  let h = 0;
-  if (el) {
-    const cs = getComputedStyle(el);
-    h = el.getBoundingClientRect().height +
-        (parseFloat(cs.marginTop) || 0) +
-        (parseFloat(cs.marginBottom) || 0);
-  }
-  m.innerHTML = '';
-  return h;
-}
-
-function updateMaxContentHeight() {
-  // measureBlocksHeight() returns the sandbox BORDER-BOX height, i.e. it already
-  // includes the 15mm top + 20mm bottom page padding. So the budget we compare it
-  // against must also be a full page-box height, not a content-only figure.
-  // A page is 297mm tall; the footer lives inside the 20mm bottom padding, so we
-  // let content+padding fill almost the whole sheet and keep a small safety gap.
-  const PAGE_BUDGET_MM = 291; // 297mm page − ~6mm safety margin
-  const probe = document.createElement('div');
-  probe.style.position = 'absolute';
-  probe.style.visibility = 'hidden';
-  probe.style.left = '-9999px';
-  probe.style.top = '-9999px';
-  probe.style.height = PAGE_BUDGET_MM + 'mm';
-  document.body.appendChild(probe);
-  maxContentHeightPx = probe.getBoundingClientRect().height;
-  document.body.removeChild(probe);
-}
-
-function assembleBlocksHtml(blocksArray) {
-  let html = '';
-  let currentSection = null;
-  let sectionBlocks = [];
-
-  function flushSection() {
-    if (sectionBlocks.length === 0) return;
-    if (currentSection === 'header') {
-      html += sectionBlocks.map(b => b.html).join('');
-    } else {
-      html += '<div class="sec">' + sectionBlocks.map(b => b.html).join('') + '</div>';
-    }
-    sectionBlocks = [];
-  }
-
-  blocksArray.forEach(block => {
-    const secName = block.section || 'header';
-    if (secName !== currentSection) {
-      flushSection();
-      currentSection = secName;
-    }
-    sectionBlocks.push(block);
-  });
-  flushSection();
-
-  return html;
-}
-
-function measureBlocksHeight(blocksArray) {
-  const m = getMeasureNode();
-  m.innerHTML = assembleBlocksHtml(blocksArray);
-  const h = m.getBoundingClientRect().height; // border-box incl. 15mm/20mm padding
-  m.innerHTML = '';
-  return h;
-}
-
-function adjustScale() {
-  const panel = document.getElementById('preview-panel');
-  const wrapper = document.getElementById('cv-scale-wrapper');
-  const outer = document.getElementById('cv-scale-outer');
-  if (!panel || !wrapper || !outer) return;
-
-  const containerWidth = panel.clientWidth - 56; // padding
-  const pageWidthPx = 794; // ~210mm at 96dpi
-
-  if (containerWidth < pageWidthPx) {
-    const scale = containerWidth / pageWidthPx;
-    wrapper.style.transform = 'scale(' + scale + ')';
-    wrapper.style.transformOrigin = 'top center';
-    // Set outer height so scroll works properly
-    outer.style.height = (wrapper.scrollHeight * scale) + 'px';
-    outer.style.width = containerWidth + 'px';
-  } else {
-    wrapper.style.transform = 'none';
-    outer.style.height = 'auto';
-    outer.style.width = '210mm';
-  }
-}
-
-window.addEventListener('resize', adjustScale);
-
-/* ══════════════════════════════════════════
-   RENDER CV — with pagination
-══════════════════════════════════════════ */
-function render(){
-  const name    = document.getElementById('f-name').value;
-  const title   = document.getElementById('f-title').value;
-  const phone   = document.getElementById('f-phone').value;
-  const email   = document.getElementById('f-email').value;
-  const loc     = document.getElementById('f-location').value;
-  const summary = document.getElementById('f-summary').value;
-  const skills  = document.getElementById('f-skills').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
-
-  updateMaxContentHeight();
-
-  /* ── Running header for continuation pages (page 2+) ── */
-  const runningHeaderHtml =
-    '<div class="cv-running-header">' +
-      '<span class="crh-name">' + bf(name) + '</span>' +
-      (title ? '<span class="crh-role">' + bf(title) + '</span>' : '') +
-    '</div>';
-  // Reserve the running-header's footprint on continuation pages so content
-  // never collides with it.
-  maxContentHeightRestPx = maxContentHeightPx - measureElementHeight(runningHeaderHtml);
-
-  /* ── Build logical blocks ── */
-  const blocks = [];
-
-  // HEADER
-  var validLinks = D.links.filter(function(lk){ return lk.label && lk.url; });
-  let hh = '<div class="cv-hd">';
-  hh += '<div class="cv-name">'+bf(name)+'</div>';
-  hh += '<div class="cv-role">'+bf(title)+'</div>';
-  hh += '<div class="cv-contacts">';
-  if(phone) hh += contactAnchor(phone, phoneIcon);
-  if(email) hh += contactAnchor(email, emailIcon);
-  validLinks.forEach(function(lk){
-    hh += '<a class="ci-link" href="'+esc(linkHref(lk.url))+'" target="_blank" rel="noopener">'+linkIcon+esc(lk.label)+'</a>';
-  });
-  if(loc) hh += '<span class="ci">'+mapPinIcon+bf(loc)+'</span>';
-  hh += '</div></div>';
-  blocks.push({ type:'header', section:'header', html:hh });
-
-  // SUMMARY
-  if(summary){
-    blocks.push({ type:'summary', section:'summary',
-      html:'<div class="sec-ttl">Summary</div><div class="cv-sum">'+bf(summary)+'</div>'
-    });
-  }
-
-  // EXPERIENCE
-  if(D.jobs.length){
-    blocks.push({ type:'section-title', section:'jobs', html:'<div class="sec-ttl">Experience</div>' });
-    D.jobs.forEach(function(j, idx){
-      var buls = j.bullets.filter(function(b){ return (b||'').trim(); });
-      let jh = '<div class="cv-job">';
-      jh += '<div class="cv-jt">'+bf(j.title)+'</div>';
-      jh += '<div class="cv-jc">'+bf(j.company)+'</div>';
-      jh += '<div class="cv-jmeta">' + renderDateLoc(j.date) + '</div>';
-      if(j.desc) jh += '<div class="cv-jcd">'+bf(j.desc)+'</div>';
-      if(buls.length){ jh += '<ul>'+buls.map(function(b){ return '<li>'+bf(b)+'</li>'; }).join('')+'</ul>'; }
-      jh += '</div>';
-      blocks.push({ type:'item', section:'jobs', itemIndex:idx, html:jh });
-    });
-  }
-
-  // EDUCATION
-  if(D.edu.length){
-    blocks.push({ type:'section-title', section:'edu', html:'<div class="sec-ttl">Education</div>' });
-    D.edu.forEach(function(e, idx){
-      let eh = '<div class="cv-edu"><div>';
-      eh += '<div class="cv-edu-deg">'+bf(e.degree)+'</div>';
-      eh += '<div class="cv-edu-inst">'+bf(e.inst)+'</div>';
-      eh += '<div class="cv-jmeta">' + renderDateLoc(e.date) + '</div>';
-      eh += '</div><div class="cv-edu-r">';
-      eh += renderGpaBox(e.gpa);
-      eh += '</div></div>';
-      blocks.push({ type:'item', section:'edu', itemIndex:idx, html:eh });
-    });
-  }
-
-  // PROJECTS (paired into 2-col grid rows)
-  if(D.projects.length){
-    blocks.push({ type:'section-title', section:'projects', html:'<div class="sec-ttl">Side Projects</div>' });
-    for(let i = 0; i < D.projects.length; i += 2) {
-      const p1 = D.projects[i];
-      const p2 = D.projects[i+1];
-      let ph = '<div class="cv-proj-grid">';
-      ph += '<div class="cv-proj-item"><div style="display:flex;gap:8px;align-items:flex-start;">';
-      ph += getProjectIcon(p1.name);
-      ph += '<div><div class="cv-proj-name">'+bf(p1.name)+'</div>';
-      ph += '<div class="cv-proj-desc">'+bf(p1.desc)+'</div></div></div></div>';
-      if(p2) {
-        ph += '<div class="cv-proj-item"><div style="display:flex;gap:8px;align-items:flex-start;">';
-        ph += getProjectIcon(p2.name);
-        ph += '<div><div class="cv-proj-name">'+bf(p2.name)+'</div>';
-        ph += '<div class="cv-proj-desc">'+bf(p2.desc)+'</div></div></div></div>';
-      }
-      ph += '</div>';
-      blocks.push({ type:'item', section:'projects', itemIndex:i, html:ph });
-    }
-  }
-
-  // SKILLS
-  if(skills.length){
-    blocks.push({ type:'section-title', section:'skills', html:'<div class="sec-ttl">Skills</div>' });
-    let sh = '<div class="cv-skills">';
-    skills.forEach(function(s){ sh += '<span class="cv-skill">'+bf(s)+'</span>'; });
-    sh += '</div>';
-    blocks.push({ type:'item', section:'skills', html:sh });
-  }
-
-  // CERTIFICATIONS
-  if(D.certs.length){
-    blocks.push({ type:'section-title', section:'certs', html:'<div class="sec-ttl">Certifications</div>' });
-    D.certs.forEach(function(c, idx){
-      let ch = '<div class="cv-cert">';
-      ch += '<div class="cv-cert-name">'+bf(c.name)+'</div>';
-      ch += '<div class="cv-cert-iss">'+bf(c.iss)+'</div>';
-      ch += '</div>';
-      blocks.push({ type:'item', section:'certs', itemIndex:idx, html:ch });
-    });
-  }
-
-  // REFERENCES (paired into 2-col grid rows)
-  if(D.refs.length){
-    blocks.push({ type:'section-title', section:'refs', html:'<div class="sec-ttl">References</div>' });
-    for(let i = 0; i < D.refs.length; i += 2) {
-      const r1 = D.refs[i];
-      const r2 = D.refs[i+1];
-      let rh = '<div class="cv-refs"><div>';
-      rh += '<div class="cv-ref-name">'+bf(r1.name)+'</div>';
-      rh += '<div class="cv-ref-role">'+nl2br(r1.role)+'</div>';
-      if(r1.email) rh += '<div class="cv-ref-c">'+contactAnchor(r1.email, emailIcon)+'</div>';
-      if(r1.phone) rh += '<div class="cv-ref-c">'+contactAnchor(r1.phone, phoneIcon)+'</div>';
-      rh += '</div>';
-      if(r2) {
-        rh += '<div>';
-        rh += '<div class="cv-ref-name">'+bf(r2.name)+'</div>';
-        rh += '<div class="cv-ref-role">'+nl2br(r2.role)+'</div>';
-        if(r2.email) rh += '<div class="cv-ref-c">'+contactAnchor(r2.email, emailIcon)+'</div>';
-        if(r2.phone) rh += '<div class="cv-ref-c">'+contactAnchor(r2.phone, phoneIcon)+'</div>';
-        rh += '</div>';
-      }
-      rh += '</div>';
-      blocks.push({ type:'item', section:'refs', itemIndex:i, html:rh });
-    }
-  }
-
-  /* ── PAGINATION ALGORITHM ── */
-  const pages = [[]];
-  let pi = 0; // current page index
-
-  for (let i = 0; i < blocks.length; i++) {
-    const block = blocks[i];
-    pages[pi].push(block);
-
-    // Page 1 has the full header; pages 2+ reserve room for the running header.
-    const pageMax = (pi === 0) ? maxContentHeightPx : maxContentHeightRestPx;
-    const height = measureBlocksHeight(pages[pi]);
-    if (height > pageMax && pages[pi].length > 1) {
-      // Overflowed — pull the block off this page and carry it to the next one.
-      pages[pi].pop();
-      const carried = [block];
-
-      // Widow protection: don't strand a section-title alone at the bottom of a
-      // page — move it to the next page together with its first item.
-      if (pages[pi].length > 0 &&
-          pages[pi][pages[pi].length - 1].type === 'section-title') {
-        carried.unshift(pages[pi].pop());
-      }
-
-      pi++;
-      pages[pi] = carried;
-    }
-  }
-
-  /* ── RENDER PAGES TO DOM ── */
-  let finalHtml = '';
-  const totalPages = pages.length;
-
-  pages.forEach(function(pageBlocks, index) {
-    const pageNum = index + 1;
-    const pageContentHtml = assembleBlocksHtml(pageBlocks);
-
-    finalHtml += '<div class="cv-page">';
-    if (index > 0) finalHtml += runningHeaderHtml;
-    finalHtml += pageContentHtml;
-    finalHtml += '<div class="cv-page-footer">';
-    finalHtml += '<div class="cv-footer-line"></div>';
-    finalHtml += '<div class="cv-footer-content">';
-    finalHtml += '<span>' + bf(name) + ' — CV</span>';
-    finalHtml += '<span>Page ' + pageNum + ' of ' + totalPages + '</span>';
-    finalHtml += '</div></div>';
-    finalHtml += '</div>';
-  });
-
-  document.getElementById('cv').innerHTML = finalHtml;
-  document.getElementById('cv-sandbox').innerHTML = '';
-
-  adjustScale();
-  save();
-}
-
-function save(){
-  try {
-    D.name = document.getElementById('f-name').value;
-    D.title = document.getElementById('f-title').value;
-    D.phone = document.getElementById('f-phone').value;
-    D.email = document.getElementById('f-email').value;
-    D.location = document.getElementById('f-location').value;
-    D.summary = document.getElementById('f-summary').value;
-    D.skills = document.getElementById('f-skills').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
-    localStorage.setItem('cv_data', JSON.stringify(D));
-  } catch(e) {
-    console.error("Error saving data:", e);
-  }
-}
-
-function resetTemplate(){
-  if(confirm('Are you sure you want to discard all changes and reset to the default template?')){
-    localStorage.removeItem('cv_data');
-    location.reload();
-  }
-}
-
-/* ══════════════════════════════════════════
-   PRINT - direct browser print, keeps live anchors
-══════════════════════════════════════════ */
-function printCV(){
-  var printNow = function(){ window.focus(); window.print(); };
-  if(!sessionStorage.getItem('cv_pdf_link_tip')){
-    sessionStorage.setItem('cv_pdf_link_tip', '1');
-    alert('For clickable links, set Destination to "Save as PDF" in Chrome or Edge. Do not use "Microsoft Print to PDF" or other printer drivers. Enable Background graphics if styles look incomplete.');
-  }
-  if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(printNow).catch(printNow);
-  } else {
-    setTimeout(printNow, 300);
-  }
-}
-
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
-function init(){
-  const saved = localStorage.getItem('cv_data');
-  if(saved){
-    try {
-      const parsed = JSON.parse(saved);
-      Object.assign(D, parsed);
-    } catch(e) {
-      console.error("Error loading data:", e);
-    }
-  }
-
-  document.getElementById('f-name').value     = D.name || '';
-  document.getElementById('f-title').value    = D.title;
-  document.getElementById('f-phone').value    = D.phone;
-  document.getElementById('f-email').value    = D.email;
-  document.getElementById('f-location').value = D.location;
-  document.getElementById('f-summary').value  = D.summary;
-  document.getElementById('f-skills').value   = D.skills.join('\n');
-
-  // Attach focus tracking for simple header fields
-  ['f-name','f-title','f-phone','f-email','f-location','f-summary','f-skills'].forEach(function(id){
-    var el = document.getElementById(id);
-    el.addEventListener('focus', function(){ _el = this; });
-    el.addEventListener('input', function(){ _s0=this.selectionStart; _s1=this.selectionEnd; render(); });
-  });
-
-  buildLinks();
-  buildJobs();
-  buildEdu();
-  buildProj();
-  buildCerts();
-  buildRefs();
-  render();
-}
-
-init();
-</script>
+<script src="scripts/data.js"></script>
+<script src="scripts/helpers.js"></script>
+<script src="scripts/editor.js"></script>
+<script src="scripts/render.js"></script>
+<script src="scripts/ai.js"></script>
+<script src="scripts/app.js"></script>
 </body>
 </html>
