@@ -127,7 +127,19 @@
   <div id="preview-col">
     <div id="pv-bar">
       <span class="pv-title"><span class="pv-dot"></span> Live preview</span>
-      <span class="pv-meta"><span id="pv-pages">1 page</span><span class="pv-chip">A4 · Portrait</span></span>
+      <div class="pv-controls">
+        <div class="density-selector" id="densitySelector">
+          <span class="dens-lbl">Density:</span>
+          <button class="dbtn active" data-density="normal" onclick="setDensity('normal')">Normal</button>
+          <button class="dbtn" data-density="compact" onclick="setDensity('compact')">Compact</button>
+          <button class="dbtn" data-density="relaxed" onclick="setDensity('relaxed')">Relaxed</button>
+        </div>
+        <span class="pv-meta">
+          <span id="pv-budget-gauge" class="pv-budget-ok">✓ 2 Pages (Fit)</span>
+          <span id="pv-pages">1 page</span>
+          <span class="pv-chip">A4 · Portrait</span>
+        </span>
+      </div>
     </div>
     <div id="preview-panel">
       <div id="cv-scale-outer">

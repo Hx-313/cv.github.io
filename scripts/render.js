@@ -59,6 +59,26 @@ function updateMaxContentHeight() {
   document.body.removeChild(probe);
 }
 
+function setDensity(density){
+  document.body.setAttribute('data-density', density);
+  try { localStorage.setItem('cv_density', density); } catch(e){}
+  const sel = document.getElementById('densitySelector');
+  if(sel){
+    sel.querySelectorAll('.dbtn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.density === density);
+    });
+  }
+  render();
+}
+
+// Auto-init density on load
+(function(){
+  try {
+    const d = localStorage.getItem('cv_density') || 'normal';
+    document.body.setAttribute('data-density', d);
+  } catch(e){}
+})();
+
 function assembleBlocksHtml(blocksArray) {
   let html = '';
   let currentSection = null;
@@ -67,9 +87,50 @@ function assembleBlocksHtml(blocksArray) {
   function flushSection() {
     if (sectionBlocks.length === 0) return;
     if (currentSection === 'header') {
-      html += sectionBlocks.map(b => b.html).join('');
+      html += sectionBlocks.map(b => b.html || '').join('');
+    } else if (currentSection === 'jobs') {
+      let secHtml = '';
+      let i = 0;
+      while (i < sectionBlocks.length) {
+        const blk = sectionBlocks[i];
+        if (blk.type === 'section-title') {
+          secHtml += blk.html;
+          i++;
+        } else if (blk.type === 'job-header' || blk.type === 'job-bullet') {
+          const currentJobIdx = blk.jobIndex;
+          const jobGroup = [];
+          while (i < sectionBlocks.length && sectionBlocks[i].jobIndex === currentJobIdx) {
+            jobGroup.push(sectionBlocks[i]);
+            i++;
+          }
+          const headerBlk = jobGroup.find(b => b.type === 'job-header');
+          const bullets = jobGroup.filter(b => b.type === 'job-bullet');
+          const isContinued = !headerBlk;
+
+          let jh = '<div class="cv-job' + (isContinued ? ' cv-job-cont' : '') + '">';
+          if (headerBlk) {
+            jh += '<div class="cv-jt">' + bf(headerBlk.title) + '</div>';
+            jh += '<div class="cv-jc">' + bf(headerBlk.company) + '</div>';
+            jh += '<div class="cv-jmeta">' + renderDateLoc(headerBlk.date) + '</div>';
+            if (headerBlk.paragraph) {
+              jh += '<div class="cv-jcd">' + bf(headerBlk.paragraph) + '</div>';
+            }
+          } else if (bullets.length && bullets[0].jobTitle) {
+            jh += '<div class="cv-jmeta cv-cont-lbl"><em>' + bf(bullets[0].jobTitle) + ' (Continued)</em></div>';
+          }
+          if (bullets.length) {
+            jh += '<ul>' + bullets.map(b => '<li>' + bf(b.text) + '</li>').join('') + '</ul>';
+          }
+          jh += '</div>';
+          secHtml += jh;
+        } else {
+          secHtml += blk.html || '';
+          i++;
+        }
+      }
+      html += '<div class="sec">' + secHtml + '</div>';
     } else {
-      html += '<div class="sec">' + sectionBlocks.map(b => b.html).join('') + '</div>';
+      html += '<div class="sec">' + sectionBlocks.map(b => b.html || '').join('') + '</div>';
     }
     sectionBlocks = [];
   }
@@ -172,15 +233,34 @@ function render(){
     D.jobs.forEach(function(j, idx){
       var buls = (j.bullets||[]).filter(function(b){ return (b||'').trim(); });
       const fmt = j.format || 'bullets';
-      const para = j.paragraph || (fmt === 'paragraph' ? j.desc : '');
-      let jh = '<div class="cv-job">';
-      jh += '<div class="cv-jt">'+bf(j.title)+'</div>';
-      jh += '<div class="cv-jc">'+bf(j.company)+'</div>';
-      jh += '<div class="cv-jmeta">' + renderDateLoc(j.date) + '</div>';
-      if((fmt === 'paragraph' || fmt === 'both') && para) jh += '<div class="cv-jcd">'+bf(para)+'</div>';
-      if((fmt === 'bullets' || fmt === 'both') && buls.length){ jh += '<ul>'+buls.map(function(b){ return '<li>'+bf(b)+'</li>'; }).join('')+'</ul>'; }
-      jh += '</div>';
-      blocks.push({ type:'item', section:'jobs', itemIndex:idx, html:jh });
+      const para = (fmt === 'paragraph' || fmt === 'both') ? (j.paragraph || j.desc || '') : '';
+
+      // Header block with title, company, dates, and paragraph
+      blocks.push({
+        type: 'job-header',
+        section: 'jobs',
+        jobIndex: idx,
+        title: j.title,
+        company: j.company,
+        date: j.date,
+        paragraph: para,
+        totalBullets: (fmt === 'bullets' || fmt === 'both') ? buls.length : 0
+      });
+
+      // Individual granular bullet blocks
+      if(fmt === 'bullets' || fmt === 'both'){
+        buls.forEach(function(b, bIdx){
+          blocks.push({
+            type: 'job-bullet',
+            section: 'jobs',
+            jobIndex: idx,
+            bulletIndex: bIdx,
+            totalBullets: buls.length,
+            jobTitle: j.title,
+            text: b
+          });
+        });
+      }
     });
   }
 
@@ -283,8 +363,16 @@ function render(){
       pages[pi].pop();
       const carried = [block];
 
-      // Widow protection: don't strand a section-title alone at the bottom of a
-      // page — move it to the next page together with its first item.
+      // Safeguard 1: If what remains at the bottom of pages[pi] is a bare job-header
+      // with no paragraph and no bullets, move it to the next page together with its first item.
+      if (pages[pi].length > 0) {
+        const last = pages[pi][pages[pi].length - 1];
+        if (last.type === 'job-header' && !last.paragraph && last.totalBullets > 0) {
+          carried.unshift(pages[pi].pop());
+        }
+      }
+
+      // Safeguard 2: Widow protection: don't strand a section-title alone at the bottom of a page
       if (pages[pi].length > 0 &&
           pages[pi][pages[pi].length - 1].type === 'section-title') {
         carried.unshift(pages[pi].pop());
@@ -320,6 +408,20 @@ function render(){
 
   const pvPages = document.getElementById('pv-pages');
   if (pvPages) pvPages.textContent = totalPages + (totalPages === 1 ? ' page' : ' pages');
+
+  const gauge = document.getElementById('pv-budget-gauge');
+  if (gauge) {
+    if (totalPages === 2) {
+      gauge.className = 'pv-budget-ok';
+      gauge.innerHTML = '✓ Exact 2-Page Fit';
+    } else if (totalPages === 1) {
+      gauge.className = 'pv-budget-ok';
+      gauge.innerHTML = '✓ 1-Page Fit';
+    } else {
+      gauge.className = 'pv-budget-warn';
+      gauge.innerHTML = '⚠️ ' + totalPages + ' Pages (Try Compact)';
+    }
+  }
 
   adjustScale();
   save();
