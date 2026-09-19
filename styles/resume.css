@@ -110,6 +110,24 @@
   display:inline-flex;align-items:center;transition:color .15s;
 }
 #cv a.ci-link:hover{color:var(--blue);}
+#cv a.cv-inline-link{
+  color:var(--blue, #0b5ed7);
+  text-decoration:underline;
+  text-decoration-color:rgba(11, 94, 215, 0.4);
+  text-underline-offset:2px;
+  font-weight:600;
+  transition:color .15s, text-decoration-color .15s;
+}
+#cv a.cv-inline-link:hover{
+  color:var(--blue-dark, #1d4ed8);
+  text-decoration-color:var(--blue-dark, #1d4ed8);
+}
+@media print {
+  #cv a.cv-inline-link {
+    color: var(--blue, #0b5ed7) !important;
+    text-decoration: underline !important;
+  }
+}
 .cv-icon{
   width:11px;height:11px;color:var(--blue);display:inline-block;
   vertical-align:middle;margin-right:4px;flex-shrink:0;

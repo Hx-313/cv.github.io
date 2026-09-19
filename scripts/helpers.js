@@ -56,7 +56,8 @@ function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').rep
 function bf(s){
   if(!s) return '';
   return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-               .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+               .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+               .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a class="cv-inline-link" href="$2" target="_blank" rel="noopener">$1</a>');
 }
 function nl2br(s){ return bf(s).replace(/\n/g,'<br>'); }
 function linkHref(url){
