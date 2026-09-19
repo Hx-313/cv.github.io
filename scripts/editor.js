@@ -8,17 +8,27 @@ document.addEventListener('focusin', e => {
   if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') _el = e.target;
 });
 document.addEventListener('selectionchange', () => {
-  if(_el){ _s0 = _el.selectionStart; _s1 = _el.selectionEnd; }
+  if(_el && document.activeElement === _el){ _s0 = _el.selectionStart; _s1 = _el.selectionEnd; }
 });
 ['mouseup','keyup','keydown'].forEach(ev =>
-  document.addEventListener(ev, () => { if(_el){ _s0=_el.selectionStart; _s1=_el.selectionEnd; } })
+  document.addEventListener(ev, () => {
+    if(_el && document.activeElement === _el){ _s0 = _el.selectionStart; _s1 = _el.selectionEnd; }
+  })
 );
 
 function applyBold(){
-  if(!_el){ alert('Click inside any text field first, select some text, then click Bold.'); return; }
+  if(!_el){ showToast('Select text first to bold'); return; }
   let s = _el.selectionStart, e = _el.selectionEnd;
   if(s===e){ s=_s0; e=_s1; }
-  if(s===e){ alert('Please select some text first, then click Bold.'); return; }
+  if(s===e){
+    // If no text selected, find current word boundaries
+    const val = _el.value;
+    let ws = s, we = s;
+    while(ws > 0 && /\S/.test(val[ws - 1])) ws--;
+    while(we < val.length && /\S/.test(val[we])) we++;
+    if(ws < we){ s = ws; e = we; }
+    else { showToast('Select text first to bold (Ctrl+B)'); return; }
+  }
   const v=_el.value, sel=v.slice(s,e), before=v.slice(0,s), after=v.slice(e);
   let nv, nc;
   if(before.endsWith('**')&&after.startsWith('**')){
@@ -29,11 +39,111 @@ function applyBold(){
   _el.value = nv;
   _el.focus();
   _el.setSelectionRange(nc,nc);
-  _el.dispatchEvent(new Event('input'));
+  _el.dispatchEvent(new Event('input', { bubbles: true }));
   const btn=document.getElementById('boldBtn');
-  btn.classList.add('active');
-  setTimeout(()=>btn.classList.remove('active'),600);
+  if(btn){
+    btn.classList.add('active');
+    setTimeout(()=>btn.classList.remove('active'),600);
+  }
 }
+
+let _savedLinkTarget = null;
+let _savedLinkSel = { start: 0, end: 0, text: '' };
+
+function openLinkModal(){
+  _savedLinkTarget = _el || document.activeElement;
+  if (!_savedLinkTarget || (_savedLinkTarget.tagName !== 'INPUT' && _savedLinkTarget.tagName !== 'TEXTAREA')) {
+    showToast('Click inside a description or text field first');
+    return;
+  }
+  let s = _savedLinkTarget.selectionStart, e = _savedLinkTarget.selectionEnd;
+  if (s === e) { s = _s0; e = _s1; }
+  const val = _savedLinkTarget.value;
+  let selText = val.substring(s, e).trim();
+  _savedLinkSel = { start: s, end: e, text: selText };
+
+  const overlay = document.getElementById('link-overlay');
+  const txtInput = document.getElementById('link-in-text');
+  const urlInput = document.getElementById('link-in-url');
+  if (!overlay || !txtInput || !urlInput) return;
+
+  txtInput.value = selText || '';
+  urlInput.value = 'https://';
+  overlay.style.display = 'flex';
+  setTimeout(() => {
+    if (selText) urlInput.focus();
+    else txtInput.focus();
+  }, 50);
+}
+
+function closeLinkModal(){
+  const overlay = document.getElementById('link-overlay');
+  if (overlay) overlay.style.display = 'none';
+  if (_savedLinkTarget) _savedLinkTarget.focus();
+}
+
+function confirmInsertLink(){
+  const txtInput = document.getElementById('link-in-text');
+  const urlInput = document.getElementById('link-in-url');
+  if (!txtInput || !urlInput || !_savedLinkTarget) return;
+
+  const label = txtInput.value.trim() || 'Link';
+  let url = urlInput.value.trim();
+  if (url && !/^[a-zA-Z]+:\/\//.test(url)) {
+    url = 'https://' + url;
+  }
+  if (!url) url = 'https://';
+
+  const markdownLink = '[' + label + '](' + url + ')';
+  const val = _savedLinkTarget.value;
+  const s = _savedLinkSel.start;
+  const e = _savedLinkSel.end;
+
+  _savedLinkTarget.value = val.substring(0, s) + markdownLink + val.substring(e);
+  const nextCursor = s + markdownLink.length;
+  _savedLinkTarget.setSelectionRange(nextCursor, nextCursor);
+  _savedLinkTarget.dispatchEvent(new Event('input', { bubbles: true }));
+
+  closeLinkModal();
+  showToast('Link inserted! Clickable in CV preview');
+  const btn = document.getElementById('linkBtn');
+  if (btn) {
+    btn.classList.add('active');
+    setTimeout(() => btn.classList.remove('active'), 600);
+  }
+}
+
+// Global hotkeys listener (Ctrl+B, Ctrl+K, Ctrl+S)
+window.addEventListener('keydown', function(e){
+  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const mod = isMac ? e.metaKey : e.ctrlKey;
+
+  // Handle Enter/Esc in link modal
+  const linkModal = document.getElementById('link-overlay');
+  if (linkModal && linkModal.style.display === 'flex') {
+    if (e.key === 'Enter') { e.preventDefault(); confirmInsertLink(); return; }
+    if (e.key === 'Escape') { e.preventDefault(); closeLinkModal(); return; }
+  }
+
+  if (mod && e.key.toLowerCase() === 'b') {
+    if (_el && (_el.tagName==='INPUT'||_el.tagName==='TEXTAREA')) {
+      e.preventDefault();
+      applyBold();
+    }
+  } else if (mod && e.key.toLowerCase() === 'k') {
+    if (_el && (_el.tagName==='INPUT'||_el.tagName==='TEXTAREA')) {
+      e.preventDefault();
+      openLinkModal();
+    }
+  } else if (mod && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    if (typeof save === 'function') save();
+    if (window.CloudSync && typeof window.CloudSync.push === 'function') {
+      window.CloudSync.push();
+    }
+    showToast('Saved to local storage & cloud synced');
+  }
+});
 
 function buildLinks(){
   const w = document.getElementById('links-wrap');

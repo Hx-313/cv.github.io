@@ -25,9 +25,18 @@
       </span>
     </div>
     <span class="tb-div" aria-hidden="true"></span>
-    <button class="tbtn tbtn-bold" id="boldBtn" onclick="applyBold()" title="Select text in any field, then bold it">
-      <svg class="ic" viewBox="0 0 24 24"><path d="M6 12h8a4 4 0 0 0 0-8H6z"/><path d="M6 12h9a4 4 0 0 1 0 8H6z"/></svg> Bold
+    <button class="tbtn tbtn-bold" id="boldBtn" onclick="applyBold()" title="Select text in any field, then bold it (Ctrl+B)">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M6 12h8a4 4 0 0 0 0-8H6z"/><path d="M6 12h9a4 4 0 0 1 0 8H6z"/></svg> Bold <span class="kbd-hint">Ctrl+B</span>
     </button>
+    <button class="tbtn tbtn-link" id="linkBtn" onclick="openLinkModal()" title="Insert link on selected text (Ctrl+K)">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link <span class="kbd-hint">Ctrl+K</span>
+    </button>
+    <span class="tb-div" aria-hidden="true"></span>
+    <div class="view-mode-toggle" id="viewModeToggle">
+      <button class="vbtn active" data-mode="split" onclick="setViewMode('split')" title="Split view">Split</button>
+      <button class="vbtn" data-mode="form" onclick="setViewMode('form')" title="Editor only">Edit</button>
+      <button class="vbtn" data-mode="preview" onclick="setViewMode('preview')" title="Preview only">Preview</button>
+    </div>
   </div>
   <div class="tb-actions">
     <button class="tbtn tbtn-ai" onclick="openAI()">
@@ -196,9 +205,34 @@
         </div>
       </div>
 
+</div>
+
+<!-- INLINE LINK MODAL (Ctrl+K) -->
+<div id="link-overlay" class="ai-overlay" onclick="if(event.target===this)closeLinkModal()">
+  <div class="ai-modal" style="max-width:440px;" role="dialog" aria-modal="true" aria-label="Insert Hyperlink">
+    <div class="ai-hd">
+      <div class="ai-title">🔗 Insert Hyperlink <span class="ai-sub">Ctrl+K</span></div>
+      <button class="ai-x" onclick="closeLinkModal()" title="Close">✕</button>
+    </div>
+    <div class="ai-body" style="padding:16px 20px 20px;">
+      <div class="fg" style="margin-bottom:12px;">
+        <label>Link Text</label>
+        <input id="link-in-text" class="ai-input" placeholder="e.g. Dietify">
+      </div>
+      <div class="fg" style="margin-bottom:16px;">
+        <label>Target URL</label>
+        <input id="link-in-url" class="ai-input" placeholder="https://..." value="https://">
+      </div>
+      <div class="ai-actions" style="margin-top:0;">
+        <button class="ai-btn ai-btn-ghost" onclick="closeLinkModal()">Cancel</button>
+        <button class="ai-btn ai-btn-primary" id="link-confirm-btn" onclick="confirmInsertLink()">Insert Link</button>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- GLOBAL TOAST NOTIFICATION -->
+<div id="toast"><span id="toast-icon">✓</span> <span id="toast-txt">Saved</span></div>
 
 <script src="scripts/data.js"></script>
 <script src="scripts/helpers.js"></script>

@@ -10,6 +10,35 @@ function resetTemplate(){
   }
 }
 
+let _toastTimer = null;
+function showToast(msg, icon = '✓'){
+  const t = document.getElementById('toast');
+  if(!t) return;
+  const ic = document.getElementById('toast-icon');
+  const txt = document.getElementById('toast-txt');
+  if(ic) ic.textContent = icon;
+  if(txt) txt.textContent = msg;
+  t.classList.add('show');
+  if(_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => {
+    t.classList.remove('show');
+  }, 2500);
+}
+
+function setViewMode(mode){
+  document.body.classList.remove('view-form', 'view-preview');
+  if(mode === 'form') document.body.classList.add('view-form');
+  if(mode === 'preview') document.body.classList.add('view-preview');
+
+  const toggle = document.getElementById('viewModeToggle');
+  if(toggle){
+    toggle.querySelectorAll('.vbtn').forEach(b => {
+      b.classList.toggle('active', b.dataset.mode === mode);
+    });
+  }
+  if(typeof adjustScale === 'function') adjustScale();
+}
+
 function printCV(){
   var printNow = function(){ window.focus(); window.print(); };
   if(!sessionStorage.getItem('cv_pdf_link_tip')){
