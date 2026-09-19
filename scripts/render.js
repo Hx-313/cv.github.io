@@ -437,6 +437,9 @@ function save(){
     D.summary = document.getElementById('f-summary').value;
     D.skills = document.getElementById('f-skills').value.split('\n').map(function(s){return s.trim();}).filter(Boolean);
     localStorage.setItem('cv_data', JSON.stringify(D));
+    if (window.CloudSync && typeof window.CloudSync.queueAutoSync === 'function') {
+      window.CloudSync.queueAutoSync();
+    }
   } catch(e) {
     console.error("Error saving data:", e);
   }
