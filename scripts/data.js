@@ -18,8 +18,10 @@ const D = {
     {
       title: "Flutter & Android Developer", company: "TeraMob Pvt Ltd",
       desc: "Mobile application development company", date: "01/2026 – Present",
+      format: "bullets",
+      paragraph: "",
       bullets: [
-        "Architected and deployed 4+ high-traffic applications including Dietify, eBill Checker, Speak & Translate, and Expense Tracking, utilizing Riverpod and Clean Architecture to ensure modularity.",
+        "Architected and deployed 4+ high-traffic applications including [Dietify](https://dietify.app), eBill Checker, Speak & Translate, and Expense Tracking, utilizing Riverpod and Clean Architecture to ensure modularity.",
         "Engineered sophisticated modules including AI-powered conversation bots, OCR camera translations, and real-time utility bill tracking for multiple national providers.",
         "Integrated subscription models and ad-network SDKs across all production apps, maintaining 100% stability and high user retention rates."
       ]
@@ -27,6 +29,8 @@ const D = {
     {
       title: "Flutter & System Developer", company: "Webticians",
       desc: "Apps, Websites, SEO, E-commerce, Graphic Design and Shopify", date: "12/2025 – Present | Rawalpindi, Pakistan",
+      format: "bullets",
+      paragraph: "",
       bullets: [
         "Engineered a multi-platform \"5-in-1\" ecosystem for restaurants, comprising a Web Ordering System (WOS), a web-based POS, and a dedicated Order Terminal app.",
         "Developed a sophisticated WOS backend that allows for unlimited restaurant and takeaway registrations, enabling rapid business scaling.",
@@ -36,6 +40,8 @@ const D = {
     {
       title: "Flutter Developer Intern", company: "OCTALOOP TECHNOLOGIES",
       desc: "Company specializing in mobile application development", date: "06/2024 – 09/2024",
+      format: "bullets",
+      paragraph: "",
       bullets: [
         "Developed multiple production-level Flutter applications from Figma designs using clean architecture, BLoC, and responsive UI techniques.",
         "Resolved real-world bugs, optimized screens for various devices, and improved app performance and stability.",
@@ -46,6 +52,8 @@ const D = {
     {
       title: "Native Android Developer", company: "CENIT",
       desc: "Networking and IT", date: "05/2024 – 03/2025",
+      format: "bullets",
+      paragraph: "",
       bullets: [
         "Developed Android applications using Java and XML with API integration, RecyclerView, View Binding, and Data Binding.",
         "Delivered client-focused features, resolved bugs, and implemented enhancements while strengthening debugging and problem-solving skills.",

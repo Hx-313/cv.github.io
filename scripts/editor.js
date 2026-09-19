@@ -77,6 +77,11 @@ function buildJobs(){
   D.jobs.forEach(function(j, i){
     const d = document.createElement('div');
     d.className = 'blk';
+    const fmt = j.format || 'bullets';
+    const showBullets = fmt === 'bullets' || fmt === 'both';
+    const showPara = fmt === 'paragraph' || fmt === 'both';
+    const paraVal = j.paragraph !== undefined ? j.paragraph : (j.desc || '');
+
     d.innerHTML =
       '<div class="blk-hd" onclick="tog(this)">' +
         '<span class="blk-lbl">' + (esc(j.title)||'New Job') + '</span>' +
@@ -87,13 +92,26 @@ function buildJobs(){
           '<input data-i="'+i+'" data-f="title" value="'+esc(j.title)+'"></div>' +
         '<div class="fg"><label>Company</label>' +
           '<input data-i="'+i+'" data-f="company" value="'+esc(j.company)+'"></div>' +
-        '<div class="fg"><label>Company Description</label>' +
-          '<input data-i="'+i+'" data-f="desc" value="'+esc(j.desc)+'"></div>' +
         '<div class="fg"><label>Date / Location</label>' +
           '<input data-i="'+i+'" data-f="date" value="'+esc(j.date)+'"></div>' +
-        '<div class="fg"><label>Bullet Points (one per line)</label>' +
+        '<div class="fg">' +
+          '<label>Description Format</label>' +
+          '<div class="fmt-toggle" data-i="'+i+'">' +
+            '<button type="button" class="fmt-btn '+(fmt==='bullets'?'active':'')+'" data-fmt="bullets">• Bullets</button>' +
+            '<button type="button" class="fmt-btn '+(fmt==='paragraph'?'active':'')+'" data-fmt="paragraph">¶ Paragraph</button>' +
+            '<button type="button" class="fmt-btn '+(fmt==='both'?'active':'')+'" data-fmt="both">Both</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="fg fg-para" style="display:'+(showPara?'block':'none')+'">' +
+          '<label>Paragraph Description</label>' +
+          '<textarea class="tall" data-i="'+i+'" data-f="paragraph" placeholder="Narrative description... supports **bold** and [links](url)">'+esc(paraVal)+'</textarea>' +
+          '<div class="hint">Supports **bold** and [links](https://...)</div>' +
+        '</div>' +
+        '<div class="fg fg-bullets" style="display:'+(showBullets?'block':'none')+'">' +
+          '<label>Bullet Points (one per line)</label>' +
           '<textarea class="tall" data-i="'+i+'" data-f="bullets">'+esc(j.bullets.join('\n'))+'</textarea>' +
-          '<div class="hint">Select text → Bold button</div></div>' +
+          '<div class="hint">Select text → Ctrl+B for bold · Ctrl+K for link</div>' +
+        '</div>' +
         '<button class="btn-rm" data-i="'+i+'" data-rm="job">✕ Remove this job</button>' +
       '</div>';
     w.appendChild(d);
@@ -108,16 +126,33 @@ function buildJobs(){
   });
   w.querySelectorAll('textarea[data-f]').forEach(function(ta){
     ta.addEventListener('input', function(){
-      D.jobs[+this.dataset.i].bullets = this.value.split('\n');
+      if (this.dataset.f === 'bullets') {
+        D.jobs[+this.dataset.i].bullets = this.value.split('\n');
+      } else {
+        D.jobs[+this.dataset.i][this.dataset.f] = this.value;
+      }
       render();
     });
     ta.addEventListener('focus', function(){ _el=this; });
+  });
+  w.querySelectorAll('.fmt-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const i = +this.parentElement.dataset.i;
+      const fmt = this.dataset.fmt;
+      D.jobs[i].format = fmt;
+      this.parentElement.querySelectorAll('.fmt-btn').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      const body = this.closest('.blk-body');
+      body.querySelector('.fg-para').style.display = (fmt==='paragraph'||fmt==='both') ? 'block' : 'none';
+      body.querySelector('.fg-bullets').style.display = (fmt==='bullets'||fmt==='both') ? 'block' : 'none';
+      render();
+    });
   });
   w.querySelectorAll('.btn-rm[data-rm="job"]').forEach(function(btn){
     btn.addEventListener('click', function(){ D.jobs.splice(+this.dataset.i,1); buildJobs(); render(); });
   });
 }
-function addJob(){ D.jobs.push({title:'',company:'',desc:'',date:'',bullets:['']}); buildJobs(); render(); }
+function addJob(){ D.jobs.push({title:'',company:'',desc:'',format:'bullets',paragraph:'',date:'',bullets:['']}); buildJobs(); render(); }
 
 function buildEdu(){
   const w = document.getElementById('edu-wrap');

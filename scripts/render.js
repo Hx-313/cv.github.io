@@ -170,13 +170,15 @@ function render(){
   if(D.jobs.length){
     blocks.push({ type:'section-title', section:'jobs', html:'<div class="sec-ttl">Experience</div>' });
     D.jobs.forEach(function(j, idx){
-      var buls = j.bullets.filter(function(b){ return (b||'').trim(); });
+      var buls = (j.bullets||[]).filter(function(b){ return (b||'').trim(); });
+      const fmt = j.format || 'bullets';
+      const para = j.paragraph || (fmt === 'paragraph' ? j.desc : '');
       let jh = '<div class="cv-job">';
       jh += '<div class="cv-jt">'+bf(j.title)+'</div>';
       jh += '<div class="cv-jc">'+bf(j.company)+'</div>';
       jh += '<div class="cv-jmeta">' + renderDateLoc(j.date) + '</div>';
-      if(j.desc) jh += '<div class="cv-jcd">'+bf(j.desc)+'</div>';
-      if(buls.length){ jh += '<ul>'+buls.map(function(b){ return '<li>'+bf(b)+'</li>'; }).join('')+'</ul>'; }
+      if((fmt === 'paragraph' || fmt === 'both') && para) jh += '<div class="cv-jcd">'+bf(para)+'</div>';
+      if((fmt === 'bullets' || fmt === 'both') && buls.length){ jh += '<ul>'+buls.map(function(b){ return '<li>'+bf(b)+'</li>'; }).join('')+'</ul>'; }
       jh += '</div>';
       blocks.push({ type:'item', section:'jobs', itemIndex:idx, html:jh });
     });
